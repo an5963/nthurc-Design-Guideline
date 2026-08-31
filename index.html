@@ -1,0 +1,2423 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NTHURC DESIGN ｜ 新北住都中心 設計手冊</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EBF4FB',
+              100: '#D5E8F7',
+              200: '#ADD1EF',
+              300: '#7BB4E5',
+              400: '#4193DA',
+              500: '#004A85', /* 核心企業深藍 */
+              600: '#004277',
+              700: '#003662',
+              800: '#002B4E',
+              900: '#001E37',
+              accent: '#0077C8',
+              cyan: '#00A3E0',
+              ice: '#F0F7FD',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans TC"', 'sans-serif'],
+          },
+          boxShadow: {
+            'glass': '0 8px 32px 0 rgba(0, 74, 133, 0.08)',
+            'glass-hover': '0 16px 40px 0 rgba(0, 74, 133, 0.14)',
+            'glass-glow': '0 0 25px rgba(0, 119, 200, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* 淺色與暗黑模式多層次漸層光暈 */
+    body {
+      background-color: #F4F8FC;
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(0, 74, 133, 0.10) 0px, transparent 50%),
+        radial-gradient(at 90% 15%, rgba(0, 163, 224, 0.12) 0px, transparent 50%),
+        radial-gradient(at 50% 90%, rgba(0, 119, 200, 0.08) 0px, transparent 60%);
+      background-attachment: fixed;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    .dark body {
+      background-color: #070D18;
+      background-image: 
+        radial-gradient(at 5% 5%, rgba(0, 74, 133, 0.40) 0px, transparent 45%),
+        radial-gradient(at 95% 10%, rgba(0, 163, 224, 0.30) 0px, transparent 45%),
+        radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+        radial-gradient(at 80% 90%, rgba(14, 165, 233, 0.25) 0px, transparent 50%),
+        radial-gradient(at 15% 85%, rgba(0, 74, 133, 0.35) 0px, transparent 50%);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 30px -5px rgba(0, 50, 100, 0.06), 0 0 0 1px rgba(0, 74, 133, 0.05);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dark .glass-card {
+      background: rgba(13, 22, 38, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card-interactive {
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card-interactive:hover {
+      background: rgba(255, 255, 255, 0.96);
+      transform: translateY(-4px);
+      border-color: rgba(0, 119, 200, 0.45);
+      box-shadow: 0 22px 45px -10px rgba(0, 74, 133, 0.16), 0 0 0 1px rgba(0, 119, 200, 0.25);
+    }
+    .dark .glass-card-interactive:hover {
+      background: rgba(19, 32, 54, 0.92);
+      border-color: rgba(0, 163, 224, 0.5);
+      transform: translateY(-4px);
+      box-shadow: 0 22px 45px -10px rgba(0, 0, 0, 0.75), 0 0 20px rgba(0, 163, 224, 0.25);
+    }
+
+    .glass-header {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 74, 133, 0.09);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .dark .glass-header {
+      background: rgba(8, 14, 25, 0.88);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    /* 時間軸連接線 */
+    .timeline-step::after {
+      content: '';
+      position: absolute;
+      top: 24px;
+      right: -16px;
+      width: 32px;
+      height: 2px;
+      background: #D5E8F7;
+      z-index: 1;
+    }
+    .dark .timeline-step::after {
+      background: #1E293B;
+    }
+    @media (max-width: 768px) {
+      .timeline-step::after {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- ================= 頂部導航欄 ================= -->
+  <header class="glass-header sticky top-0 z-40 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      
+      <!-- LOGO 與標題 -->
+      <a href="javascript:void(0)" onclick="switchTab('main')" class="flex items-center gap-3.5 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform duration-300">
+          <i data-lucide="sparkles" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg text-brand-900 dark:text-brand-100 tracking-tight">NTHURC DESIGN</span>
+            <span class="text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-brand-100/80 dark:bg-brand-900/60 text-brand-700 dark:text-brand-300 border border-brand-200 dark:border-brand-700">2026 Onboarding</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">新北住都中心-設計手冊</p>
+        </div>
+      </a>
+
+      <!-- 快捷導覽按鈕群 -->
+      <nav class="hidden md:flex items-center gap-1 bg-slate-100/70 dark:bg-slate-800/60 p-1.5 rounded-2xl border border-slate-200/60 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300">
+        <button onclick="switchTab('main', 'section-projects')" class="px-3.5 py-1.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 hover:text-brand-700 dark:hover:text-white transition-all flex items-center gap-1.5">
+          <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+          <span>專案類型</span>
+        </button>
+        <button onclick="switchTab('main', 'section-workflows')" class="px-3.5 py-1.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 hover:text-brand-700 dark:hover:text-white transition-all flex items-center gap-1.5">
+          <i data-lucide="git-branch" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+          <span>工作流程</span>
+        </button>
+        <button onclick="switchTab('main', 'section-bookmarks')" class="px-3.5 py-1.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 hover:text-brand-700 dark:hover:text-white transition-all flex items-center gap-1.5">
+          <i data-lucide="bookmark" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+          <span>常用書籤</span>
+        </button>
+        <button onclick="switchTab('main', 'section-overview')" class="px-3.5 py-1.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 hover:text-brand-700 dark:hover:text-white transition-all flex items-center gap-1.5">
+          <i data-lucide="kanban-square" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+          <span>專案總覽</span>
+        </button>
+        <button onclick="switchTab('main', 'section-contacts')" class="px-3.5 py-1.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 hover:text-brand-700 dark:hover:text-white transition-all flex items-center gap-1.5">
+          <i data-lucide="phone-call" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+          <span>緊急聯絡</span>
+        </button>
+      </nav>
+
+      <!-- 右側：暗黑模式切換 + 首週清單徽章 -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- 🌓 暗黑模式切換按鈕 -->
+        <button id="theme-toggle" onclick="toggleDarkMode()" title="切換深淺模式" class="p-2 rounded-xl bg-white/90 dark:bg-slate-800 border border-slate-200/70 dark:border-slate-700 hover:border-brand-400 dark:hover:border-brand-400 text-slate-700 dark:text-amber-400 shadow-sm transition-all">
+          <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
+        </button>
+
+        <!-- 首週清單 -->
+        <button onclick="switchTab('main', 'section-checklist')" class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/90 dark:bg-slate-800 border border-brand-200/70 dark:border-slate-700 hover:border-brand-400 text-xs font-semibold text-brand-800 dark:text-brand-200 shadow-sm transition-all">
+          <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
+          <span class="hidden sm:inline">首週清單</span>
+          <span id="nav-checklist-count" class="px-1.5 py-0.2 rounded-md bg-brand-100 dark:bg-brand-900/80 text-brand-700 dark:text-brand-300 text-[11px] font-bold">0/4</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= 主內容容器 ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-8 md:py-10">
+
+    <!-- ======================================================== -->
+    <!-- VIEW A: 主首頁 -->
+    <!-- ======================================================== -->
+    <div id="view-main" class="space-y-12">
+      
+      <!-- ================= HERO BANNER ================= -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden bg-gradient-to-br from-white/95 via-white/85 to-brand-50/70 dark:from-slate-900/90 dark:via-slate-900/80 dark:to-brand-950/60 border border-white dark:border-slate-700 shadow-xl">
+        <div class="absolute -top-20 -right-20 w-96 h-96 bg-gradient-to-br from-brand-400/25 to-brand-cyan/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -left-20 w-80 h-80 bg-brand-accent/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- 左側文案 -->
+          <div class="lg:col-span-8 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-50 dark:bg-brand-900/50 border border-brand-200/80 dark:border-brand-700 text-brand-700 dark:text-brand-300 text-xs font-bold tracking-wide shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Welcome to NTHURC Team
+            </div>
+            
+            <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-brand-900 dark:text-white tracking-tight leading-tight">
+              新北住都中心 設計手冊
+            </h1>
+            
+            <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-medium max-w-2xl">
+              收錄專案製作SOP、可用授權圖庫等資訊，記得加入書籤、方便隨時查閱
+            </p>
+
+            <!-- 快捷標籤列 -->
+            <div class="pt-2 flex flex-wrap gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300">
+              <button onclick="scrollToSection('section-projects')" class="px-3.5 py-1.5 rounded-xl bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 flex items-center gap-1.5 shadow-sm transition-all">
+                <i data-lucide="layers" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i> 專案介紹
+              </button>
+              <button onclick="scrollToSection('section-workflows')" class="px-3.5 py-1.5 rounded-xl bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 flex items-center gap-1.5 shadow-sm transition-all">
+                <i data-lucide="clipboard-check" class="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400"></i> 製作原則
+              </button>
+              <button onclick="scrollToSection('section-bookmarks')" class="px-3.5 py-1.5 rounded-xl bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 flex items-center gap-1.5 shadow-sm transition-all">
+                <i data-lucide="globe" class="w-3.5 h-3.5 text-blue-500 dark:text-blue-400"></i> 常用網址
+              </button>
+              <button onclick="scrollToSection('section-bookmarks')" class="px-3.5 py-1.5 rounded-xl bg-white/80 dark:bg-slate-800/80 hover:bg-white dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700 flex items-center gap-1.5 shadow-sm transition-all">
+                <i data-lucide="palette" class="w-3.5 h-3.5 text-amber-500 dark:text-amber-400"></i> 品牌規範
+              </button>
+            </div>
+          </div>
+
+          <!-- 右側快速資訊浮動卡片 -->
+          <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3.5">
+            
+            <div class="bg-white/90 dark:bg-slate-800/90 p-4 rounded-2xl border border-brand-100 dark:border-slate-700 shadow-sm flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs text-slate-400 font-semibold block">企業代表主色</span>
+                <span class="text-base font-extrabold text-brand-900 dark:text-brand-100 font-mono mt-0.5 block">#004A85</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400 font-mono">RGB: 0, 74, 133</span>
+              </div>
+              <button onclick="copyToClipboard('#004A85', '主色 #004A85 已複製')" class="w-10 h-10 rounded-xl bg-[#004A85] text-white flex items-center justify-center shadow-md hover:scale-105 transition-all">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <div class="bg-white/90 dark:bg-slate-800/90 p-4 rounded-2xl border border-brand-100 dark:border-slate-700 shadow-sm flex items-center justify-between gap-3">
+              <div>
+                <span class="text-xs text-slate-400 font-semibold block">資料夾命名規範</span>
+                <span class="text-sm font-extrabold text-brand-700 dark:text-brand-300 font-mono mt-0.5 block bg-brand-50 dark:bg-brand-900/60 px-2 py-0.5 rounded border border-brand-200/60 dark:border-brand-700">YYMMDD_專案名</span>
+                <span class="text-[11px] text-slate-500 dark:text-slate-400">例：260831_簽約手舉牌</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-brand-50 dark:bg-slate-700 text-brand-600 dark:text-brand-300">
+                <i data-lucide="folder-check" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ================= 模組一：專案類型 ================= -->
+      <section id="section-projects" class="space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+          <div class="flex items-center gap-2.5">
+            <div class="p-2 rounded-xl bg-brand-500 text-white shadow-sm shadow-brand-500/20">
+              <i data-lucide="layers" class="w-5 h-5"></i>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">專案類型</h2>
+            <span class="text-xs font-semibold text-brand-600 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/50 px-2.5 py-0.5 rounded-full border border-brand-200 dark:border-brand-700">Project Types</span>
+          </div>
+          <span class="text-xs text-slate-400 font-medium hidden sm:inline">點擊卡片進入獨立規格分頁</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+          
+          <!-- 卡片 1: 數位廣告 -->
+          <div onclick="openSubPage('digital-ad')" class="glass-card glass-card-interactive rounded-3xl cursor-pointer flex flex-col justify-between group overflow-hidden border border-slate-200/80 dark:border-slate-700">
+            <div class="h-36 w-full relative overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1542744094-3a31f272c490?q=80&w=800&auto=format&fit=crop" alt="數位廣告" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                <div class="flex items-center gap-2">
+                  <span class="p-1.5 rounded-lg bg-blue-500/80 backdrop-blur-sm"><i data-lucide="layout-template" class="w-4 h-4 text-white"></i></span>
+                  <span class="font-extrabold text-lg">數位廣告</span>
+                </div>
+                <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+              </div>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-3.5 leading-relaxed">官網&社群圖文、數位廣告與簡報製作</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">官網製圖</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">社群圖文</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">其他廣告</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">簡報製作</span>
+                </div>
+              </div>
+
+              <div class="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-brand-600 dark:text-brand-300 font-bold">
+                <span>詳細規格與製作指南</span>
+                <span class="p-1 rounded-full bg-brand-50 dark:bg-slate-700 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片 2: 實體印刷 -->
+          <div onclick="openSubPage('print-design')" class="glass-card glass-card-interactive rounded-3xl cursor-pointer flex flex-col justify-between group overflow-hidden border border-slate-200/80 dark:border-slate-700">
+            <div class="h-36 w-full relative overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1588854337236-6889d631faa8?q=80&w=800&auto=format&fit=crop" alt="實體印刷" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                <div class="flex items-center gap-2">
+                  <span class="p-1.5 rounded-lg bg-emerald-500/80 backdrop-blur-sm"><i data-lucide="printer" class="w-4 h-4 text-white"></i></span>
+                  <span class="font-extrabold text-lg">實體印刷</span>
+                </div>
+                <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+              </div>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-3.5 leading-relaxed">活動背板、宣傳海報、DM 折頁與手舉牌等輔銷物</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">海報</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">宣傳單 (DM)</span>
+                  <span class="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">活動背板</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">輔銷物 (手舉牌/小卡)</span>
+                </div>
+              </div>
+
+              <div class="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-emerald-600 dark:text-emerald-300 font-bold">
+                <span>印刷出血與色彩規範</span>
+                <span class="p-1 rounded-full bg-emerald-50 dark:bg-slate-700 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 卡片 3: 影音剪輯 -->
+          <div onclick="openSubPage('video-editing')" class="glass-card glass-card-interactive rounded-3xl cursor-pointer flex flex-col justify-between group overflow-hidden border border-slate-200/80 dark:border-slate-700">
+            <div class="h-36 w-full relative overflow-hidden bg-slate-800">
+              <img src="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=800&auto=format&fit=crop" alt="影音剪輯" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white">
+                <div class="flex items-center gap-2">
+                  <span class="p-1.5 rounded-lg bg-purple-500/80 backdrop-blur-sm"><i data-lucide="film" class="w-4 h-4 text-white"></i></span>
+                  <span class="font-extrabold text-lg">影音剪輯</span>
+                </div>
+                <i data-lucide="arrow-up-right" class="w-5 h-5 text-white/80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all"></i>
+              </div>
+            </div>
+
+            <div class="p-5 flex-1 flex flex-col justify-between">
+              <div>
+                <p class="text-sm text-slate-600 dark:text-slate-300 mb-3.5 leading-relaxed">活動長影音、短影音製作與腳本發想</p>
+                <div class="flex flex-wrap gap-1.5">
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">長影音</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">短影音</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">腳本企劃</span>
+                </div>
+              </div>
+
+              <div class="mt-5 pt-3.5 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-purple-600 dark:text-purple-300 font-bold">
+                <span>詳細規格與企劃要點</span>
+                <span class="p-1 rounded-full bg-purple-50 dark:bg-slate-700 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 專案交付原則 -->
+        <div class="glass-card rounded-2xl p-5 md:p-6 border-l-4 border-l-brand-500 bg-white/80 dark:bg-slate-800/80">
+          <div class="flex items-center gap-2 text-brand-900 dark:text-brand-200 font-bold text-base mb-3">
+            <i data-lucide="alert-circle" class="w-5 h-5 text-brand-500"></i>
+            <span>專案交付原則</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700 dark:text-slate-200 leading-relaxed">
+            <div class="bg-white/90 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200/70 dark:border-slate-700">
+              <span class="font-bold text-slate-900 dark:text-white block mb-1 text-sm">📁 原始檔案需保留</span>
+              製作用原始檔（.ai / .psd / .prproj）皆須完整妥善留存公槽，以利日後改版或協同編輯
+            </div>
+            <div class="bg-white/90 dark:bg-slate-900/80 p-4 rounded-xl border border-slate-200/70 dark:border-slate-700">
+              <span class="font-bold text-slate-900 dark:text-white block mb-1 text-sm">🖨️ 實體輸出要注意</span>
+              印刷檔務必確認「文字轉外框」、色彩模式、出血設定，並檢查使用效果是否影響輸出(如透明度/濾鏡)
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 模組二：工作流程 ================= -->
+      <section id="section-workflows" class="space-y-6">
+        <div class="pb-2 border-b border-slate-200/80 dark:border-slate-700">
+          <div class="flex items-center gap-2.5">
+            <div class="p-2 rounded-xl bg-brand-accent text-white shadow-sm shadow-brand-accent/20">
+              <i data-lucide="git-branch" class="w-5 h-5"></i>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">工作流程</h2>
+            <span class="text-xs font-semibold text-brand-600 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/50 px-2.5 py-0.5 rounded-full border border-brand-200 dark:border-brand-700">Workflows</span>
+          </div>
+        </div>
+
+        <!-- 設計SOP -->
+        <div class="space-y-3">
+          <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-brand-500"></span>
+            設計SOP
+          </h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-3 pt-2">
+            
+            <!-- Step 1 -->
+            <div class="glass-card rounded-2xl p-5 relative timeline-step bg-white/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-7 h-7 rounded-full bg-brand-500 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">1</span>
+                  <i data-lucide="clipboard-list" class="w-4 h-4 text-brand-500 dark:text-brand-400"></i>
+                </div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">需求確認</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                  確認需求來源窗口是誰，記錄製作規格（尺寸、文案內容、交付時程等）
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="glass-card rounded-2xl p-5 relative timeline-step bg-white/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-7 h-7 rounded-full bg-brand-500 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">2</span>
+                  <i data-lucide="palette" class="w-4 h-4 text-brand-500 dark:text-brand-400"></i>
+                </div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">素材準備與發想</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                  聚焦視覺風格，可蒐集素材或參考過往專案，若用圖庫素材，請確認版權使用
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="glass-card rounded-2xl p-5 relative timeline-step bg-brand-50/50 dark:bg-brand-950/50 border-2 border-brand-400 dark:border-brand-500 shadow-md flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-7 h-7 rounded-full bg-brand-600 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">3</span>
+                  <span class="text-[10px] font-bold bg-brand-500 text-white px-2 py-0.5 rounded-full">需核對</span>
+                </div>
+                <h4 class="text-base font-bold text-brand-900 dark:text-brand-200">初稿製作與核對</h4>
+                <p class="text-xs text-slate-700 dark:text-slate-300 mt-2 leading-relaxed font-medium">
+                  提交前可檢查規格與需求是否一致，確認後請先供凱弘核對
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="glass-card rounded-2xl p-5 relative timeline-step bg-white/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-7 h-7 rounded-full bg-brand-500 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">4</span>
+                  <i data-lucide="message-square-diff" class="w-4 h-4 text-brand-500 dark:text-brand-400"></i>
+                </div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">修訂與完稿</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                  與需求單位確認成品需求，進行修訂調整
+                </p>
+              </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="glass-card rounded-2xl p-5 relative bg-white/90 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-extrabold text-xs flex items-center justify-center shadow-sm">5</span>
+                  <i data-lucide="folder-archive" class="w-4 h-4 text-emerald-600 dark:text-emerald-400"></i>
+                </div>
+                <h4 class="text-base font-bold text-slate-900 dark:text-white">歸檔與交件</h4>
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                  留存原始檔並確認版本是否正確，外部資料夾命名為 [日期]_[專案名稱]
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 常見狀況應對 (結合精美照片呈現 + Q3 顏色與左側一致) -->
+        <div class="space-y-3 pt-2">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              常見狀況應對
+            </h3>
+            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">大原則：遇到不清楚或不知如何處理時，先詢問<strong>凱弘</strong>或<strong>牧羣</strong></span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Q1 (含情境圖) -->
+            <div class="glass-card rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between bg-white/90 dark:bg-slate-800/90 group">
+              <div>
+                <div class="h-32 w-full relative overflow-hidden bg-slate-800">
+                  <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=800&auto=format&fit=crop" alt="規格查詢" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  <div class="absolute bottom-3 left-4 right-4 flex items-center gap-2 text-white">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center text-xs font-bold shadow-sm">Q1</span>
+                    <span class="font-bold text-sm">不知道圖片製作規格時？</span>
+                  </div>
+                </div>
+                
+                <div class="p-5">
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    可先至本網站「專案類型」中查詢，如果都無類似需求或為特殊規格，可直接詢問凱弘
+                  </p>
+                </div>
+              </div>
+              
+              <div class="px-5 pb-4">
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-700 text-xs text-brand-600 dark:text-brand-300 font-semibold flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> 先查規格 ➔ 無答案問凱弘
+                </div>
+              </div>
+            </div>
+
+            <!-- Q2 (含情境圖) -->
+            <div class="glass-card rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between bg-white/90 dark:bg-slate-800/90 group">
+              <div>
+                <div class="h-32 w-full relative overflow-hidden bg-slate-800">
+                  <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop" alt="庫存管理" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  <div class="absolute bottom-3 left-4 right-4 flex items-center gap-2 text-white">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center text-xs font-bold shadow-sm">Q2</span>
+                    <span class="font-bold text-sm">有人想要拿中心的輔銷物時？</span>
+                  </div>
+                </div>
+
+                <div class="p-5">
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    請先查看「雲端輔銷物庫存表」，確認需拿取的品項名稱、領取數量以及存放位置，登記後再行發放
+                  </p>
+                </div>
+              </div>
+
+              <div class="px-5 pb-4">
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-700 text-xs text-brand-600 dark:text-brand-300 font-semibold flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> 查雲端庫存表 ➔ 核對品項數量
+                </div>
+              </div>
+            </div>
+
+            <!-- Q3 (含情境圖，文字與圖示顏色與左側一致) -->
+            <div class="glass-card rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between bg-white/90 dark:bg-slate-800/90 group">
+              <div>
+                <div class="h-32 w-full relative overflow-hidden bg-slate-800">
+                  <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=800&auto=format&fit=crop" alt="想法碰撞" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                  <div class="absolute bottom-3 left-4 right-4 flex items-center gap-2 text-white">
+                    <span class="w-6 h-6 rounded-full bg-amber-500 flex items-center justify-center text-xs font-bold shadow-sm">Q3</span>
+                    <span class="font-bold text-sm">對企劃/設計有不同想法？</span>
+                  </div>
+                </div>
+
+                <div class="p-5">
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    歡迎主動提出！設計非常需要不同觀點碰撞，無論在排版或內容上有新靈感，都可一起討論
+                  </p>
+                </div>
+              </div>
+
+              <div class="px-5 pb-4">
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-700 text-xs text-brand-600 dark:text-brand-300 font-semibold flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-4 h-4 text-emerald-500"></i> 歡迎隨時提出想法碰撞
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 模組三：常用書籤與資源庫 ================= -->
+      <section id="section-bookmarks" class="space-y-6">
+        <div class="pb-2 border-b border-slate-200/80 dark:border-slate-700">
+          <div class="flex items-center gap-2.5">
+            <div class="p-2 rounded-xl bg-brand-cyan text-white shadow-sm shadow-brand-cyan/20">
+              <i data-lucide="bookmark" class="w-5 h-5"></i>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">常用書籤與資源庫</h2>
+            <span class="text-xs font-semibold text-brand-600 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/50 px-2.5 py-0.5 rounded-full border border-brand-200 dark:border-brand-700">Quick Links</span>
+          </div>
+        </div>
+
+        <!-- 內部公槽路徑 -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="hard-drive" class="w-4 h-4 text-brand-500"></i>
+              內部公槽路徑
+            </h3>
+            <span class="text-xs text-slate-400">點擊按鈕直接複製路徑，貼入檔案總管網址列即可開啟</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            <!-- 專案工作資料夾 -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between bg-white/90 dark:bg-slate-800/90 relative overflow-hidden group">
+              <div class="absolute -right-6 -bottom-6 w-32 h-32 opacity-10 dark:opacity-20 pointer-events-none group-hover:scale-110 transition-transform">
+                <i data-lucide="folder-kanban" class="w-full h-full text-brand-500"></i>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="p-2 rounded-xl bg-brand-50 dark:bg-brand-900/60 text-brand-600 dark:text-brand-300">
+                      <i data-lucide="folder" class="w-4 h-4"></i>
+                    </span>
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">專案工作資料夾</h4>
+                  </div>
+                  <span class="text-xs text-slate-400">日常必用</span>
+                </div>
+                
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                  專案製作、檔案交付皆在此處。中心設計規範（Logo、Mascot、標準模板）也收錄於此
+                </p>
+                
+                <div class="mt-3 p-2.5 bg-slate-900/90 text-slate-200 rounded-xl text-xs font-mono break-all select-all flex items-center justify-between gap-2 border border-slate-800">
+                  <span>\\172.16.62.6\臨時分享區\13設計製作區\0.規範文件\3.討論\4.工讀生_專案工作資料</span>
+                </div>
+              </div>
+              
+              <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-end">
+                <button onclick="copyToClipboard('\\\\172.16.62.6\\臨時分享區\\13設計製作區\\0.規範文件\\3.討論\\4.工讀生_專案工作資料', '專案管理公槽路徑已複製')" class="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  <span>一鍵複製路徑</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 活動拍攝紀錄 -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 flex flex-col justify-between bg-white/90 dark:bg-slate-800/90 relative overflow-hidden group">
+              <div class="absolute -right-6 -bottom-6 w-32 h-32 opacity-10 dark:opacity-20 pointer-events-none group-hover:scale-110 transition-transform">
+                <i data-lucide="camera" class="w-full h-full text-emerald-500"></i>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2">
+                    <span class="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300">
+                      <i data-lucide="camera" class="w-4 h-4"></i>
+                    </span>
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">活動拍攝紀錄</h4>
+                  </div>
+                  <span class="text-xs text-slate-400">活動紀錄 / 修圖</span>
+                </div>
+                
+                <p class="text-xs text-slate-600 dark:text-slate-300 mt-3 leading-relaxed">
+                  活動照片及影片原始檔存放處。每個活動獨立建置資料夾，取名邏輯為 [日期]_[專案名稱]
+                </p>
+                
+                <div class="mt-3 p-2.5 bg-slate-900/90 text-slate-200 rounded-xl text-xs font-mono break-all select-all flex items-center justify-between gap-2 border border-slate-800">
+                  <span>\\172.16.62.6\臨時分享區\13設計製作區\97.活動拍攝\1.年次分類\2026年</span>
+                </div>
+              </div>
+              
+              <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700 flex justify-end">
+                <button onclick="copyToClipboard('\\\\172.16.62.6\\臨時分享區\\13設計製作區\\97.活動拍攝\\1.年次分類\\2026年', '拍攝資料公槽路徑已複製')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition-all">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  <span>一鍵複製路徑</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 常用書籤 -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="globe" class="w-4 h-4 text-brand-500"></i>
+              常用書籤
+            </h3>
+            <span class="text-xs text-slate-500 dark:text-slate-400">解決「那個在哪裡？」的疑問，也歡迎提供覺得該收錄的內容</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- 分類 A: 中心相關社群與官網 -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90">
+              <div class="flex items-center gap-2 mb-3.5 pb-2 border-b border-slate-100 dark:border-slate-700">
+                <span class="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400"><i data-lucide="building" class="w-4 h-4"></i></span>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">中心相關社群與官網</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://www.nthurc.org.tw/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-brand-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <span class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-md bg-brand-500 text-white flex items-center justify-center">
+                      <i data-lucide="layout" class="w-3.5 h-3.5"></i>
+                    </span>
+                    中心官方網站
+                  </span>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-brand-500"></i>
+                </a>
+                
+                <a href="https://www.facebook.com/NTHURC" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <span class="flex items-center gap-2.5">
+                    <svg class="w-5 h-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    Facebook 粉絲專頁
+                  </span>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600"></i>
+                </a>
+                
+                <a href="https://www.instagram.com/nthurc/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-pink-50 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <span class="flex items-center gap-2.5">
+                    <svg class="w-5 h-5 text-[#E4405F]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    Instagram 官方帳號
+                  </span>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-pink-600"></i>
+                </a>
+                
+                <a href="https://www.youtube.com/@NTHURC/featured" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-red-50 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <span class="flex items-center gap-2.5">
+                    <svg class="w-5 h-5 text-[#FF0000]" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    YouTube 頻道
+                  </span>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-red-600"></i>
+                </a>
+                
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                  <a href="https://lin.ee/fFifsjZ" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-emerald-50 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                    <span class="flex items-center gap-2">
+                      <svg class="w-4 h-4 text-[#06C755]" fill="currentColor" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.392z"/></svg>
+                      LINE 官方帳號
+                    </span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                  </a>
+                  
+                  <!-- Threads 官方標準向量 LOGO -->
+                  <a href="https://www.threads.com/@nthurc" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-slate-200/60 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                    <span class="flex items-center gap-2">
+                      <svg class="w-4 h-4 text-slate-900 dark:text-white" viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2109 139.019 87.8451C137.537 60.5382 122.616 44.905 97.4619 44.745C97.1685 44.7431 96.875 44.7422 96.5816 44.7422C74.6294 44.7422 56.4952 58.7495 52.383 80.9575C48.0772 104.21 61.9868 126.969 85.0673 133.843C97.104 137.427 109.914 135.539 120.354 128.665C122.912 126.98 123.633 123.518 121.948 120.96C120.263 118.402 116.801 117.681 114.243 119.366C106.126 124.712 96.155 126.177 86.8298 123.403C68.9664 118.083 58.2045 100.463 61.5401 82.4517C64.6738 65.5284 78.4735 54.8385 96.5816 54.8385C96.8093 54.8385 97.037 54.8392 97.2647 54.8407C116.591 54.9638 127.854 66.8624 128.949 88.0811C117.817 89.9678 107.411 94.6183 99.4975 101.401C88.666 110.686 83.2127 122.756 84.148 135.393C85.1764 149.278 95.8361 159.278 109.117 159.278C123.535 159.278 136.035 147.935 139.754 131.603C143.684 133.916 148.069 135.617 152.793 136.568C155.772 137.168 158.647 135.228 159.247 132.249C159.847 129.27 157.907 126.395 154.928 125.795C148.882 124.577 143.435 121.785 138.835 117.868C142.923 108.571 144.331 98.3976 141.537 88.9883ZM110.155 149.182C101.127 149.182 94.3411 142.188 93.6836 133.313C93.0768 125.109 96.6575 116.924 103.719 110.871C109.842 105.623 117.781 101.996 126.377 100.584C124.084 128.455 117.854 149.182 110.155 149.182Z"/></svg>
+                      Threads
+                    </span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 分類 C: 設計相關表單 -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90">
+              <div class="flex items-center gap-2 mb-3.5 pb-2 border-b border-slate-100 dark:border-slate-700">
+                <span class="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"><i data-lucide="table-2" class="w-4 h-4"></i></span>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">設計相關表單</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://docs.google.com/spreadsheets/d/1ENELO2rDGDOvDW7Tacx2CYSdWoqFLd4Bew0vgghP28k/edit?usp=sharing" target="_blank" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-amber-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 flex items-center justify-between transition-all group">
+                  <div class="flex items-center gap-2 text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                    <i data-lucide="calendar" class="w-4 h-4 text-brand-500"></i>
+                    <span>年度行銷排程表</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-amber-600"></i>
+                </a>
+
+                <a href="https://docs.google.com/spreadsheets/d/1Ui8QRGQMcRjYW9sNywqzt2Or15L4brTB4-fkpjRy5zM/edit?usp=sharing" target="_blank" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-emerald-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 flex items-center justify-between transition-all group">
+                  <div class="flex items-center gap-2 text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                    <i data-lucide="boxes" class="w-4 h-4 text-emerald-500"></i>
+                    <span>輔銷物庫存表</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600"></i>
+                </a>
+
+                <a href="https://docs.google.com/spreadsheets/d/10y7edIXKC7MGoAp3kZBp-mNrvXn2vKIIXqmRWGPnuM0/edit?usp=sharing" target="_blank" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-purple-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 flex items-center justify-between transition-all group">
+                  <div class="flex items-center gap-2 text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                    <i data-lucide="contact-2" class="w-4 h-4 text-purple-500"></i>
+                    <span>合作廠商通訊錄</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-purple-600"></i>
+                </a>
+
+                <a href="https://docs.google.com/spreadsheets/d/1dYoVvUNt1Td00wuABDUIu7HXBxpe1JFq-b35GCmZdaQ/edit?usp=sharing" target="_blank" class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-blue-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 flex items-center justify-between transition-all group">
+                  <div class="flex items-center gap-2 text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                    <i data-lucide="bar-chart-3" class="w-4 h-4 text-blue-500"></i>
+                    <span>社群數據監測表</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 品牌色與字體規範 -->
+        <div class="space-y-3">
+          <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <i data-lucide="pipette" class="w-4 h-4 text-brand-500"></i>
+            品牌色與字體規範
+          </h3>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            
+            <!-- 色票盤 -->
+            <div class="lg:col-span-2 glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-bold text-slate-800 dark:text-slate-200">點擊色塊即可複製色碼</span>
+                <span class="text-xs text-slate-400">設計時可依情境自由搭配輔助色</span>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="color-palette-grid">
+                
+                <!-- 主色 (預設 Active) -->
+                <button onclick="selectColorSwatch(this, '#004A85', '公司主色 HEX #004A85 已複製')" class="color-swatch-btn p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border-2 border-brand-500 transition-all duration-300 text-left scale-[1.02] shadow-sm">
+                  <div class="w-full h-12 rounded-xl bg-[#004A85] shadow-inner mb-2 flex items-center justify-end p-1.5">
+                    <span class="text-[10px] font-bold bg-black/40 text-white px-1.5 py-0.5 rounded backdrop-blur-sm">主色</span>
+                  </div>
+                  <span class="text-xs font-bold text-slate-900 dark:text-white block">品牌深藍</span>
+                  <span class="text-xs font-mono text-brand-700 dark:text-brand-300 font-bold block mt-0.5">#004A85</span>
+                  <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 block mt-0.5">RGB: 0, 74, 133</span>
+                </button>
+
+                <!-- 輔助色 1 -->
+                <button onclick="selectColorSwatch(this, '#0077C8', '輔助色 HEX #0077C8 已複製')" class="color-swatch-btn p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 hover:border-brand-accent transition-all duration-300 text-left">
+                  <div class="w-full h-12 rounded-xl bg-[#0077C8] shadow-inner mb-2"></div>
+                  <span class="text-xs font-bold text-slate-900 dark:text-white block">活力科技藍</span>
+                  <span class="text-xs font-mono text-slate-700 dark:text-slate-300 font-bold block mt-0.5">#0077C8</span>
+                  <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 block mt-0.5">RGB: 0, 119, 200</span>
+                </button>
+
+                <!-- 輔助色 2 -->
+                <button onclick="selectColorSwatch(this, '#00A3E0', '明亮青藍 HEX #00A3E0 已複製')" class="color-swatch-btn p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 hover:border-brand-cyan transition-all duration-300 text-left">
+                  <div class="w-full h-12 rounded-xl bg-[#00A3E0] shadow-inner mb-2"></div>
+                  <span class="text-xs font-bold text-slate-900 dark:text-white block">明亮青天藍</span>
+                  <span class="text-xs font-mono text-slate-700 dark:text-slate-300 font-bold block mt-0.5">#00A3E0</span>
+                  <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 block mt-0.5">RGB: 0, 163, 224</span>
+                </button>
+
+                <!-- 輔助色 3 -->
+                <button onclick="selectColorSwatch(this, '#F39800', '暖陽橙色 HEX #F39800 已複製')" class="color-swatch-btn p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700 hover:border-amber-400 transition-all duration-300 text-left">
+                  <div class="w-full h-12 rounded-xl bg-[#F39800] shadow-inner mb-2"></div>
+                  <span class="text-xs font-bold text-slate-900 dark:text-white block">焦點暖陽橙</span>
+                  <span class="text-xs font-mono text-slate-700 dark:text-slate-300 font-bold block mt-0.5">#F39800</span>
+                  <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400 block mt-0.5">RGB: 243, 152, 0</span>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- 字體說明卡片 -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-2 text-brand-900 dark:text-brand-200 font-bold text-sm mb-2">
+                  <i data-lucide="type" class="w-4 h-4 text-brand-500"></i>
+                  <span>字體安裝與授權</span>
+                </div>
+                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
+                  專案請使用可商用字體。若新增使用字型，請務必確認授權並將字型檔同步上傳至公槽
+                </p>
+                <div class="mt-3 p-2.5 bg-slate-100 dark:bg-slate-900/80 rounded-xl text-[11px] font-mono text-slate-700 dark:text-slate-300 break-all select-all border border-slate-200/80 dark:border-slate-700">
+                  \\172.16.62.6\臨時分享區\13設計製作區\0.規範文件\3.討論\4.工讀生_專案工作資料\3.字體安裝
+                </div>
+              </div>
+              <div class="mt-3 pt-2">
+                <button onclick="copyToClipboard('\\\\172.16.62.6\\臨時分享區\\13設計製作區\\0.規範文件\\3.討論\\4.工讀生_專案工作資料\\3.字體安裝', '字體安裝公槽路徑已複製')" class="w-full py-2 rounded-xl bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                  <span>複製字體公槽路徑</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= 模組四：設計專案總覽 (進行中外層2組 + 未來待辦外層4組 + 左右底部完美切齊) ================= -->
+      <section id="section-overview" class="space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+          <div class="flex items-center gap-2.5">
+            <div class="p-2 rounded-xl bg-amber-500 text-white shadow-sm shadow-amber-500/20">
+              <i data-lucide="kanban-square" class="w-5 h-5"></i>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">設計專案總覽</h2>
+            <span class="text-xs font-semibold text-brand-600 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/50 px-2.5 py-0.5 rounded-full border border-brand-200 dark:border-brand-700">Project Overview</span>
+          </div>
+          
+          <button onclick="openSubPage('all-projects')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold shadow-sm transition-all group">
+            <span>看更多專案</span>
+            <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+          </button>
+        </div>
+
+        <!-- 主頁專案展示 (使用 items-stretch 與 flex-1 確保左右高度完全一致、底部精確切齊) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch pt-2">
+          
+          <!-- 左側：進行中 (外層 2 項，均分高度) -->
+          <div class="flex flex-col h-full space-y-4">
+            <div class="flex items-center justify-between px-1 flex-shrink-0">
+              <div class="flex items-center gap-2 font-bold text-sm text-slate-900 dark:text-white">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse"></span>
+                <span>進行中 (In Progress)</span>
+              </div>
+            </div>
+
+            <!-- 左側卡片容器 -->
+            <div class="flex-1 flex flex-col gap-4">
+              <!-- 專案 1: 都更最前線EP10-4 -->
+              <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-amber-300 transition-all space-y-3 bg-white/90 dark:bg-slate-800/90 flex-1 flex flex-col justify-between">
+                <div class="space-y-2.5">
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">都更最前線EP10-4</h4>
+                    <span class="px-2.5 py-0.5 rounded-md bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-bold flex-shrink-0">緊急度：高</span>
+                  </div>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    前期鏡位圖規劃、男主播口白分段生成與後續剪輯
+                  </p>
+                  
+                  <!-- 橫排方形縮圖群 (點擊放大) -->
+                  <div class="grid grid-cols-3 gap-2.5 pt-1">
+                    <div class="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/ep10_4_1.png', './assets/ep10_4_2.png', './assets/ep10_4_3.png'], 0, '都更最前線EP10-4 - 主播鏡位圖 1')">
+                      <img src="./assets/ep10_4_1.png" alt="鏡位1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="px-2 py-0.5 rounded bg-black/70 text-white text-[10px] font-bold">點擊放大</span>
+                      </div>
+                    </div>
+                    <div class="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/ep10_4_1.png', './assets/ep10_4_2.png', './assets/ep10_4_3.png'], 1, '都更最前線EP10-4 - 主播鏡位圖 2')">
+                      <img src="./assets/ep10_4_2.png" alt="鏡位2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="px-2 py-0.5 rounded bg-black/70 text-white text-[10px] font-bold">點擊放大</span>
+                      </div>
+                    </div>
+                    <div class="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/ep10_4_1.png', './assets/ep10_4_2.png', './assets/ep10_4_3.png'], 2, '都更最前線EP10-4 - 主播鏡位圖 3')">
+                      <img src="./assets/ep10_4_3.png" alt="鏡位3" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="px-2 py-0.5 rounded bg-black/70 text-white text-[10px] font-bold">點擊放大</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span class="flex items-center gap-1 font-medium"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> 預計完成日：2026/09/09</span>
+                  <div class="flex items-center gap-1">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">影音剪輯</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">AI主播</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 專案 2: 115年度新北優良公寓大廈頒獎典禮－手舉牌 -->
+              <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-amber-300 transition-all space-y-3 bg-white/90 dark:bg-slate-800/90 flex-1 flex flex-col justify-between">
+                <div class="space-y-2.5">
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">115年度新北優良公寓大廈頒獎典禮－手舉牌</h4>
+                    <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-bold flex-shrink-0">緊急度：低</span>
+                  </div>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                    管理單位為中工物業管理公司、獲獎社宅為新店民安青年社宅
+                  </p>
+
+                  <div class="grid grid-cols-3 gap-2.5 pt-1">
+                    <div class="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-1" onclick="openLightboxGallery(['./assets/award_prop_1.png', './assets/award_prop_2.png', './assets/award_prop_3.png'], 0, '手舉牌正面設計圖')">
+                      <img src="./assets/award_prop_1.png" alt="設計圖" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                      <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="px-2 py-0.5 rounded bg-black/70 text-white text-[10px] font-bold">點擊放大</span>
+                      </div>
+                    </div>
+                    <div class="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-1" onclick="openLightboxGallery(['./assets/award_prop_1.png', './assets/award_prop_2.png', './assets/award_prop_3.png'], 1, '手舉牌刀模規格')">
+                      <img src="./assets/award_prop_2.png" alt="刀模" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300" />
+                      <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="px-2 py-0.5 rounded bg-black/70 text-white text-[10px] font-bold">點擊放大</span>
+                      </div>
+                    </div>
+                    <div class="relative aspect-square rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/award_prop_1.png', './assets/award_prop_2.png', './assets/award_prop_3.png'], 2, '手舉牌情境展示')">
+                      <img src="./assets/award_prop_3.png" alt="情境" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span class="px-2 py-0.5 rounded bg-black/70 text-white text-[10px] font-bold">點擊放大</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span class="flex items-center gap-1 font-medium"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> 預計完成日：2026/09/18</span>
+                  <div class="flex items-center gap-1">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">輔銷物</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">手舉牌</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 右側：未來待辦 (外層 4 項，均分高度，與左側完美切齊) -->
+          <div class="flex flex-col h-full space-y-4">
+            <div class="flex items-center justify-between px-1 flex-shrink-0">
+              <div class="flex items-center gap-2 font-bold text-sm text-slate-900 dark:text-white">
+                <span class="w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+                <span>未來待辦 (Backlog)</span>
+              </div>
+            </div>
+
+            <!-- 右側卡片容器 -->
+            <div class="flex-1 flex flex-col gap-4">
+              <!-- 待辦 1: 115年度社宅第一次抽籤直播素材 -->
+              <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-700 hover:border-slate-300 transition-all space-y-2.5 bg-white/80 dark:bg-slate-800/80 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">115年度社宅第一次抽籤直播素材</h4>
+                    <span class="px-2.5 py-0.5 rounded-md bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-bold flex-shrink-0">緊急度：高</span>
+                  </div>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-1">
+                    將於10/13(二)上午11點辦理，需製作官網、社群及直播用素材
+                  </p>
+                </div>
+                <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span class="flex items-center gap-1 font-medium"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 預計完成日：2026/09/04</span>
+                  <div class="flex items-center gap-1">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">社會住宅</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">直播</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 待辦 2: 中秋社群圖文 -->
+              <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-700 hover:border-slate-300 transition-all space-y-2.5 bg-white/80 dark:bg-slate-800/80 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">中秋社群圖文</h4>
+                    <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-bold flex-shrink-0">緊急度：低</span>
+                  </div>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-1">
+                    預計排程於9/23(三)發佈於FB、IG、THREAD，須同步上限動
+                  </p>
+                </div>
+                <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span class="flex items-center gap-1 font-medium"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 預計完成日：2026/09/23</span>
+                  <div class="flex items-center gap-1">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">數位廣告</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">中秋</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 待辦 3: 中心球類競賽－影片開頭 -->
+              <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-700 hover:border-slate-300 transition-all space-y-2.5 bg-white/80 dark:bg-slate-800/80 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">中心球類競賽－影片開頭</h4>
+                    <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 text-xs font-bold flex-shrink-0">緊急度：中</span>
+                  </div>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-1">
+                    用於慶生會播放使用
+                  </p>
+                </div>
+                <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span class="flex items-center gap-1 font-medium"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 預計完成日：2026/09/11</span>
+                  <div class="flex items-center gap-1">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">影音剪輯</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">球類競賽</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 待辦 4: 抵家表情庫製作 -->
+              <div class="glass-card rounded-2xl p-4 sm:p-5 border border-slate-200/80 dark:border-slate-700 hover:border-slate-300 transition-all space-y-2.5 bg-white/80 dark:bg-slate-800/80 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-start justify-between gap-2">
+                    <h4 class="text-base font-bold text-slate-900 dark:text-white">抵家表情庫製作</h4>
+                    <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-bold flex-shrink-0">緊急度：低</span>
+                  </div>
+                  <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mt-1">
+                    擴充角色元件，利於未來中心宣傳
+                  </p>
+                </div>
+                <div class="pt-2 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+                  <span class="flex items-center gap-1 font-medium"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 預計完成日：2026/10/02</span>
+                  <div class="flex items-center gap-1">
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">吉祥物</span>
+                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">抵家</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ================= 底部雙欄 (緊急聯絡人 + 首週清單) ================= -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
+        
+        <!-- 緊急聯絡人資訊 -->
+        <section id="section-contacts" class="space-y-4">
+          <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200/80 dark:border-slate-700">
+            <div class="p-2 rounded-xl bg-slate-800 text-white shadow-sm">
+              <i data-lucide="phone-call" class="w-5 h-5"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">緊急聯絡人資訊</h2>
+            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">Who to ask</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- 凱弘 (設計) -->
+            <div class="glass-card rounded-2xl p-5 border border-brand-200/80 dark:border-slate-700 bg-brand-50/40 dark:bg-slate-800/90 relative overflow-hidden">
+              <div class="flex items-start justify-between">
+                <div>
+                  <span class="px-2 py-0.5 rounded-md bg-brand-500 text-white text-xs font-bold">設計</span>
+                  <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-2">凱弘</h3>
+                  <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">稿件確認 / 規格疑問 / 輔銷物</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 flex items-center justify-center font-black">
+                  弘
+                </div>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-brand-200/50 dark:border-slate-700 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 dark:text-slate-400">LINE 暱稱</span>
+                  <span class="font-bold text-slate-800 dark:text-slate-200 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-100 dark:border-slate-700">小R</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 dark:text-slate-400">手機號碼</span>
+                  <button onclick="copyToClipboard('0903-688-889', '凱弘手機號碼已複製')" class="font-bold text-brand-700 dark:text-brand-300 font-mono hover:underline flex items-center gap-1">
+                    0903-688-889 <i data-lucide="copy" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 牧羣 (行銷) -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/90 relative overflow-hidden">
+              <div class="flex items-start justify-between">
+                <div>
+                  <span class="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-xs font-bold">行銷</span>
+                  <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-2">牧羣</h3>
+                  <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">對外公關 / 企劃內容</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center font-black">
+                  羣
+                </div>
+              </div>
+
+              <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 dark:text-slate-400">LINE 暱稱</span>
+                  <span class="font-bold text-slate-800 dark:text-slate-200 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-100 dark:border-slate-700">肯尼馮</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-slate-500 dark:text-slate-400">手機號碼</span>
+                  <button onclick="copyToClipboard('0917-528-090', '牧羣手機號碼已複製')" class="font-bold text-emerald-700 dark:text-emerald-300 font-mono hover:underline flex items-center gap-1">
+                    0917-528-090 <i data-lucide="copy" class="w-3 h-3"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 首週清單 -->
+        <section id="section-checklist" class="space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+            <div class="flex items-center gap-2.5">
+              <div class="p-2 rounded-xl bg-emerald-600 text-white shadow-sm">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+              </div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">首週清單</h2>
+              <span class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full">Onboarding Tasks</span>
+            </div>
+            <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">重置勾選</button>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 space-y-3 bg-white/90 dark:bg-slate-800/90">
+            
+            <!-- 任務 1 -->
+            <label class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50/80 dark:hover:bg-slate-700/50 cursor-pointer transition-all border border-transparent hover:border-slate-200/60">
+              <input type="checkbox" id="chk-task-1" onchange="updateChecklistProgress()" class="w-4 h-4 mt-0.5 rounded text-brand-500 focus:ring-brand-400">
+              <div>
+                <span class="text-sm font-bold text-slate-900 dark:text-white block task-label">軟體安裝及工作環境設定</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">確認 Photoshop, Illustrator, Premiere 等軟體使用，若需安裝其他軟體，可告知凱弘</span>
+              </div>
+            </label>
+
+            <!-- 任務 2 -->
+            <label class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50/80 dark:hover:bg-slate-700/50 cursor-pointer transition-all border border-transparent hover:border-slate-200/60">
+              <input type="checkbox" id="chk-task-2" onchange="updateChecklistProgress()" class="w-4 h-4 mt-0.5 rounded text-brand-500 focus:ring-brand-400">
+              <div>
+                <span class="text-sm font-bold text-slate-900 dark:text-white block task-label">公槽連線測試</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">確認專案工作資料夾、拍攝素材存放公槽路徑的連線是否正常</span>
+              </div>
+            </label>
+
+            <!-- 任務 3 -->
+            <label class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50/80 dark:hover:bg-slate-700/50 cursor-pointer transition-all border border-transparent hover:border-slate-200/60">
+              <input type="checkbox" id="chk-task-3" onchange="updateChecklistProgress()" class="w-4 h-4 mt-0.5 rounded text-brand-500 focus:ring-brand-400">
+              <div>
+                <span class="text-sm font-bold text-slate-900 dark:text-white block task-label">閱讀工作手冊</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">閱讀本網站內容、防呆要點與檔案命名邏輯</span>
+              </div>
+            </label>
+
+            <!-- 任務 4 -->
+            <label class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50/80 dark:hover:bg-slate-700/50 cursor-pointer transition-all border border-transparent hover:border-slate-200/60">
+              <input type="checkbox" id="chk-task-4" onchange="updateChecklistProgress()" class="w-4 h-4 mt-0.5 rounded text-brand-500 focus:ring-brand-400">
+              <div>
+                <span class="text-sm font-bold text-slate-900 dark:text-white block task-label">確認 9 月份專案排程</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">與凱弘核對9月專案欲執行專案</span>
+              </div>
+            </label>
+
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- VIEW B: 獨立子分頁 1 - 數位廣告 -->
+    <!-- ======================================================== -->
+    <div id="subpage-digital-ad" class="hidden space-y-8">
+      
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
+        <button onclick="switchTab('main', 'section-projects')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm transition-all">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500"></i>
+          <span>返回工作手冊</span>
+        </button>
+        <span class="text-xs font-bold text-brand-700 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/50 px-3 py-1 rounded-full border border-brand-200 dark:border-brand-700">專案類型 ➔ 數位廣告</span>
+      </div>
+
+      <div class="glass-card rounded-3xl p-6 md:p-8 bg-gradient-to-r from-blue-50/60 via-white to-brand-50/40 dark:from-slate-900 dark:via-slate-900/80 dark:to-blue-950/40">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-2xl bg-blue-600 text-white shadow-md shadow-blue-500/20">
+            <i data-lucide="layout-template" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">數位廣告規格</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">包含官網製圖、各社群平台貼文、廣告素材與簡報常用規格</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- 1. 官網製圖 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="globe" class="w-4 h-4 text-blue-600"></i>
+              官網製圖
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300">Web Graphics</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">🖥️ 首頁輪播圖</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>製作尺寸：<strong class="font-mono text-slate-900 dark:text-white font-bold">1181*448 px (輸出時選兩倍)</strong></li>
+                <li>圖檔格式：<strong class="font-mono text-slate-900 dark:text-white">png or jpg</strong></li>
+                <li>色彩與解析度：<strong class="font-mono text-slate-900 dark:text-white">RGB、72 dpi</strong></li>
+                <li>檔案大小：建議壓縮在 <strong class="text-blue-700 dark:text-blue-400 font-bold">1MB 以下</strong>，確保網站載入速度</li>
+              </ul>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">🖼️ 文章縮圖與內頁圖片</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>文章縮圖尺寸：<strong class="font-mono text-slate-900 dark:text-white font-bold">798*532 px (建議輸出時選兩倍)</strong></li>
+                <li>內頁圖片尺寸：寬度固定 <strong class="font-mono text-slate-900 dark:text-white font-bold">1200 px</strong>，高度依原始照片調整</li>
+                <li>色彩與解析度：<strong class="font-mono text-slate-900 dark:text-white">RGB、72 dpi</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 社群圖文 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="share-2" class="w-4 h-4 text-pink-600"></i>
+              社群圖文
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-pink-50 dark:bg-pink-950 text-pink-700 dark:text-pink-300">Social Media</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">📘 Facebook 貼文</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>單圖：<strong class="font-mono text-slate-900 dark:text-white font-bold">1500 x 1500 px (方型)</strong>、<strong class="font-mono text-slate-900 dark:text-white font-bold">1500 x 1875px (直方型)</strong></li>
+                <li>多圖：<strong class="font-mono text-slate-900 dark:text-white font-bold">1500 x 1500 px (方型)</strong></li>
+                <li>色彩與解析度：<strong class="font-mono text-slate-900 dark:text-white">RGB、72 dpi</strong></li>
+              </ul>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">📱 Instagram 貼文</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>單圖&多圖：<strong class="font-mono text-slate-900 dark:text-white font-bold">1500 x 1875px (直方型)</strong></li>
+                <li>色彩與解析度：<strong class="font-mono text-slate-900 dark:text-white">RGB、72 dpi</strong></li>
+              </ul>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800">
+              <span class="font-bold text-emerald-900 dark:text-emerald-200 block mb-1 text-sm">💬 LINE 推播</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1 pl-1">
+                <li>單頁訊息為 <strong class="font-mono text-slate-900 dark:text-white font-bold">1040 x 700 px (橫方型)</strong> 或 <strong class="font-mono text-slate-900 dark:text-white font-bold">1040 x 1300 px (直方型)</strong> 或 <strong class="font-mono text-slate-900 dark:text-white font-bold">1040 x 1040 (方型)</strong></li>
+                <li>多頁訊息為 <strong class="font-mono text-slate-900 dark:text-white font-bold">1500 x 1365 px (方型)</strong></li>
+                <li>色彩與解析度：<strong class="font-mono text-slate-900 dark:text-white">RGB、72 dpi</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 簡報製作與美化 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="presentation" class="w-4 h-4 text-emerald-600"></i>
+              簡報製作與美化
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">PPT / Gamma</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">🎯 簡報版面標準</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-2 pl-1">
+                <li>製作比例：<strong class="font-mono text-slate-900 dark:text-white font-bold">16:9 (1920 x 1080 px)</strong></li>
+                <li>排版原則：<strong class="text-slate-800 dark:text-slate-200">注意圖文對齊，並善用圖表將數據可視化，避免大量文字堆疊</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 其他廣告 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="megaphone" class="w-4 h-4 text-purple-600"></i>
+              其他廣告
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300">Digital Ads</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">🏛️ 其他局處版位</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-2 pl-1">
+                <li>新北市政府城鄉發展局：<strong class="font-mono text-slate-900 dark:text-white font-bold">4084 x 1079px</strong></li>
+                <li>新北市政府都市更新處：<strong class="font-mono text-slate-900 dark:text-white font-bold">2696 x 844px</strong></li>
+                <li>色彩與解析度：RGB、72 dpi</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- VIEW C: 獨立子分頁 2 - 實體印刷規範 -->
+    <!-- ======================================================== -->
+    <div id="subpage-print-design" class="hidden space-y-8">
+      
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
+        <button onclick="switchTab('main', 'section-projects')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm transition-all">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500"></i>
+          <span>返回工作手冊</span>
+        </button>
+        <span class="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-700">專案類型 ➔ 實體印刷規範</span>
+      </div>
+
+      <div class="glass-card rounded-3xl p-6 md:p-8 bg-gradient-to-r from-emerald-50/60 via-white to-emerald-50/30 dark:from-slate-900 dark:via-slate-900/80 dark:to-emerald-950/40">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-2xl bg-emerald-600 text-white shadow-md shadow-emerald-500/20">
+            <i data-lucide="printer" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">實體印刷規範</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">包含活動背板、海報、手舉牌、小卡等輸出物規格，輸出前請將印刷檔轉外框並確認設計效果是否影響最終製作</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四宮格 -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- 1. 左上：海報設計 (Poster) -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="file-text" class="w-4 h-4 text-emerald-600"></i>
+              海報設計 (Poster)
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Poster</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">📏 常用印製尺寸</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>A1 (全開)：<strong class="font-mono text-slate-900 dark:text-white">594 x 841 mm (出血後 600x847mm)</strong></li>
+                <li>A2 (對開)：<strong class="font-mono text-slate-900 dark:text-white">420 x 594 mm (出血後 426x600mm)</strong></li>
+                <li>A3 (四開)：<strong class="font-mono text-slate-900 dark:text-white">297 x 420 mm (出血後 303x426mm)</strong></li>
+                <li>A4 (八開)：<strong class="font-mono text-slate-900 dark:text-white">210 x 297 mm (出血後 216x303mm)</strong></li>
+                <li>色彩與解析度：<strong class="text-emerald-700 dark:text-emerald-400 font-bold">CMYK</strong> 色彩模式，解析度必須達 <strong class="text-emerald-700 dark:text-emerald-400 font-bold">300 dpi</strong></li>
+                <li>出血設定：四邊各加 <strong class="font-mono text-slate-900 dark:text-white">3 mm</strong> 出血線</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 右上：手舉牌、各式小卡 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="tag" class="w-4 h-4 text-emerald-600"></i>
+              手舉牌、各式小卡
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Marketing Props</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">🏷️ 常用輔銷物類型</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>單人手舉牌：約寬 <strong class="font-mono text-slate-900 dark:text-white">85 x 65 cm</strong>（pvc-4色-霧p-合成版）較醒目</li>
+                <li>名片：<strong class="font-mono text-slate-900 dark:text-white">90 x 54 mm</strong>（四邊出血 1mm）</li>
+                <li>節慶小卡：<strong class="font-mono text-slate-900 dark:text-white">120 x 80 mm</strong>（四邊各留 1mm 出血）、<strong class="font-mono text-slate-900 dark:text-white">150 x 105 mm</strong>（四邊出血 1mm）</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 左下：DM 折頁 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="book-open" class="w-4 h-4 text-emerald-600"></i>
+              DM 折頁
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Flyer / Brochure</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">📄 規格要點</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>A4 雙面：<strong class="font-mono text-slate-900 dark:text-white">210 x 297 mm</strong> (四邊出血 3mm)</li>
+                <li>A4 三折頁：展開尺寸 <strong class="font-mono text-slate-900 dark:text-white">297 x 210 mm</strong>（內折頁寬度99mm）</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. 右下：活動大型輸出 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="box" class="w-4 h-4 text-emerald-600"></i>
+              活動大型輸出
+            </h3>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">Large Output</span>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">🎪 大型輸出要點</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>常見尺寸：寬 <strong class="font-mono text-slate-900 dark:text-white">300 ~ 600 cm</strong> x 高 <strong class="font-mono text-slate-900 dark:text-white">240 cm</strong>（依活動場地丈量尺寸為準）</li>
+                <li>製作比率：檔案過大可採 <strong class="text-emerald-700 dark:text-emerald-400 font-bold">1:10 縮小製作（300dpi CMYK）</strong>，並於檔案內標記輸出原尺寸</li>
+                <li>視覺重心：主標與主視覺應放置於離地 120cm 以上之安全高度，避免被貴賓合影時遮擋</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- VIEW D: 獨立子分頁 3 - 影音剪輯與企劃指南 -->
+    <!-- ======================================================== -->
+    <div id="subpage-video-editing" class="hidden space-y-8">
+      
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
+        <button onclick="switchTab('main', 'section-projects')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm transition-all">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500"></i>
+          <span>返回工作手冊</span>
+        </button>
+        <span class="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 px-3 py-1 rounded-full border border-purple-200 dark:border-purple-700">專案類型 ➔ 影音剪輯與企劃指南</span>
+      </div>
+
+      <div class="glass-card rounded-3xl p-6 md:p-8 bg-gradient-to-r from-purple-50/60 via-white to-purple-50/30 dark:from-slate-900 dark:via-slate-900/80 dark:to-purple-950/40">
+        <div class="flex items-center gap-3">
+          <div class="p-3 rounded-2xl bg-purple-600 text-white shadow-md shadow-purple-500/20">
+            <i data-lucide="film" class="w-7 h-7"></i>
+          </div>
+          <div>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">影音剪輯與企劃指南</h2>
+            <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">包含長影音、短影音製作與腳本常用規格</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- 1. 長影音 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="video" class="w-4 h-4 text-purple-600"></i>
+              長影音 (招商影片 / 活動紀實)
+            </h3>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">🎬 規格與輸出</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>畫面比例：<strong class="font-mono text-slate-900 dark:text-white">16:9</strong> 橫式</li>
+                <li>解析度：<strong class="font-mono text-slate-900 dark:text-white">1920 x 1080 (FHD)</strong> 或 4K (3840x2160)</li>
+                <li>幀率：29.97 fps 或 60 fps</li>
+                <li>編碼格式：<strong class="text-purple-700 dark:text-purple-400 font-bold">H.264 (.mp4)</strong>，音訊 AAC 立體聲</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 短影音 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="smartphone" class="w-4 h-4 text-pink-600"></i>
+              社群短影音 (Reels / Shorts)
+            </h3>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">⚡ 規格與安全區</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>畫面比例：<strong class="font-mono text-slate-900 dark:text-white">9:16 直式 (1080 x 1920 px)</strong></li>
+                <li>黃金前 3 秒：開頭建議直接破題，勾住觀眾</li>
+                <li>介面安全區：字幕與重要內容應避開右側按讚列、底部描述區</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 腳本分鏡格式 -->
+        <div class="glass-card rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700 space-y-4 bg-white/90 dark:bg-slate-800/90">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-700">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="file-code" class="w-4 h-4 text-brand-500"></i>
+              腳本與分鏡企劃
+            </h3>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700">
+              <span class="font-bold text-slate-800 dark:text-white block mb-1 text-sm">📝 腳本分鏡格式</span>
+              <ul class="list-disc list-inside text-slate-600 dark:text-slate-300 space-y-1.5 pl-1">
+                <li>【格式】：畫面描述 / 運鏡 / 視卡指示/ 旁白口播 / 字幕 / 配樂 說明</li>
+                <li>秒數預估：標註每段預計秒數，方便對位與控制整體秒數</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- VIEW E: 獨立子分頁 4 - 設計專案總覽 -->
+    <!-- ======================================================== -->
+    <div id="subpage-all-projects" class="hidden space-y-8">
+      
+      <div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-700">
+        <!-- 點擊返回工作手冊回到設計專案總覽區塊 -->
+        <button onclick="switchTab('main', 'section-overview')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm transition-all">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500"></i>
+          <span>返回工作手冊</span>
+        </button>
+        <span class="text-xs font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50 px-3 py-1 rounded-full border border-amber-200 dark:border-amber-700">專案總覽 ➔ 設計專案總覽</span>
+      </div>
+
+      <!-- 頂部 Header & 控制台 -->
+      <div class="glass-card rounded-3xl p-6 md:p-8 bg-gradient-to-r from-amber-50/70 via-white to-brand-50/50 dark:from-slate-900 dark:via-slate-900/80 dark:to-amber-950/40 space-y-6">
+        
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="p-3 rounded-2xl bg-amber-500 text-white shadow-md shadow-amber-500/20">
+              <i data-lucide="kanban-square" class="w-7 h-7"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">設計專案總覽</h2>
+              <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">右側篩選器可調整檢視方式，點擊卡片縮圖可放大預覽</p>
+            </div>
+          </div>
+
+          <!-- 右側：檢視模式切換 (網格/條列) + 狀態篩選按鈕 -->
+          <div class="flex flex-wrap items-center gap-3">
+            
+            <!-- 網格 / 條列 切換按鈕組 -->
+            <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-1 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold shadow-sm">
+              <button onclick="setViewMode('grid')" id="btn-view-grid" title="網格檢視" class="p-1.5 rounded-lg bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-sm transition-all">
+                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+              </button>
+              <button onclick="setViewMode('list')" id="btn-view-list" title="條列式檢視" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all">
+                <i data-lucide="list" class="w-4 h-4"></i>
+              </button>
+            </div>
+
+            <!-- 類型狀態按鈕 -->
+            <div class="flex items-center gap-1.5 bg-white dark:bg-slate-800 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs font-bold shadow-sm">
+              <button onclick="setFilterStatus('all')" class="px-3.5 py-1.5 rounded-xl bg-brand-500 text-white shadow-sm transition-all" id="btn-sub-filter-all">全部 (10)</button>
+              <button onclick="setFilterStatus('in-progress')" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all" id="btn-sub-filter-progress">進行中 (5)</button>
+              <button onclick="setFilterStatus('backlog')" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all" id="btn-sub-filter-backlog">未來待辦 (5)</button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 篩選列：日期篩選 + 標籤篩選 -->
+        <div class="pt-4 border-t border-slate-200/80 dark:border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          
+          <!-- 標籤篩選晶片 -->
+          <div class="flex flex-wrap items-center gap-1.5" id="tag-filter-container">
+            <span class="text-xs font-bold text-slate-400 mr-1 flex items-center gap-1"><i data-lucide="tag" class="w-3.5 h-3.5"></i> 標籤：</span>
+            <button onclick="setFilterTag('all')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-500 text-white shadow-sm transition-all">全部標籤</button>
+            <button onclick="setFilterTag('影音剪輯')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">影音剪輯</button>
+            <button onclick="setFilterTag('輔銷物')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">輔銷物</button>
+            <button onclick="setFilterTag('社會住宅')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">社會住宅</button>
+            <button onclick="setFilterTag('數位廣告')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">數位廣告</button>
+            <button onclick="setFilterTag('手舉牌')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">手舉牌</button>
+            <button onclick="setFilterTag('小卡')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">小卡</button>
+            <button onclick="setFilterTag('貼紙')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">貼紙</button>
+            <button onclick="setFilterTag('提袋')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">提袋</button>
+            <button onclick="setFilterTag('吉祥物')" class="tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all">吉祥物</button>
+          </div>
+
+          <!-- 日期篩選下拉選單 -->
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <span class="text-xs font-bold text-slate-400 flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> 日期排序：</span>
+            <select id="date-filter-select" onchange="handleDateFilterChange(this.value)" class="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+              <option value="all">全部完成日 (預設順序)</option>
+              <option value="sep">9 月份專案</option>
+              <option value="oct">10 月份專案</option>
+              <option value="date-asc">完成日：由近到遠 ↑</option>
+              <option value="date-desc">完成日：由遠到近 ↓</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 專案容器 (獨立分頁中的專案標籤也統一為灰色) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="all-projects-container">
+        
+        <!-- 專案 1: 都更最前線EP10-4 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="in-progress" data-date="2026-09-09" data-tags="影音剪輯 AI主播">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 進行中
+              </span>
+              <span class="px-2 py-0.5 rounded-md bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-bold">緊急度：高</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">都更最前線EP10-4</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">前期鏡位圖規劃、男主播口白分段生成與後續剪輯</p>
+
+            <!-- 網格模式圖片 (條列模式自動隱藏) -->
+            <div class="proj-img-wrap relative rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/ep10_4_1.png', './assets/ep10_4_2.png', './assets/ep10_4_3.png'], 0, '都更最前線EP10-4 - 主播鏡位圖')">
+              <img src="./assets/ep10_4_1.png" alt="都更最前線EP10-4" class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <span class="px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-bold backdrop-blur-sm flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i> 點擊放大
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/09</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">影音剪輯</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">AI主播</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 2: 115年度新北優良公寓大廈頒獎典禮－手舉牌 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="in-progress" data-date="2026-09-18" data-tags="輔銷物 手舉牌">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 進行中
+              </span>
+              <span class="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-bold">緊急度：低</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">115年度新北優良公寓大廈頒獎典禮－手舉牌</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">管理單位為中工物業管理公司、獲獎社宅為新店民安青年社宅</p>
+
+            <div class="proj-img-wrap relative rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/award_prop_3.png', './assets/award_prop_1.png', './assets/award_prop_2.png'], 0, '手舉牌專案展示')">
+              <img src="./assets/award_prop_3.png" alt="手舉牌情境" class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <span class="px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-bold backdrop-blur-sm flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i> 點擊放大
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/18</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">輔銷物</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">手舉牌</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 3: 中秋小卡印製 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="in-progress" data-date="2026-09-04" data-tags="輔銷物 小卡">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 進行中
+              </span>
+              <span class="px-2 py-0.5 rounded-md bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-bold">緊急度：高</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">中秋小卡印製</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">印製數90張、尺寸12x8cm、再生紙SH30203 216P-單面彩印</p>
+
+            <div class="proj-img-wrap relative rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/mid_autumn_1.png', './assets/mid_autumn_2.jpg', './assets/mid_autumn_3.jpg'], 0, '中秋小卡專案展示')">
+              <img src="./assets/mid_autumn_1.png" alt="中秋小卡" class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <span class="px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-bold backdrop-blur-sm flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i> 點擊放大
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/04</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">輔銷物</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">小卡</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 4: 禁菸貼紙製作 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="in-progress" data-date="2026-09-04" data-tags="輔銷物 貼紙 社會住宅">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 進行中
+              </span>
+              <span class="px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-bold">緊急度：低</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">禁菸貼紙製作</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">製作宣導貼紙，並供3款圖面供承辦確認</p>
+
+            <div class="proj-img-wrap relative rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/no_smoking_1.jpg', './assets/no_smoking_2.jpg', './assets/no_smoking_3.jpg'], 0, '社宅禁菸貼紙展示')">
+              <img src="./assets/no_smoking_1.jpg" alt="貼紙1" class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <span class="px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-bold backdrop-blur-sm flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i> 點擊放大
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/04</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">輔銷物</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">貼紙</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">社會住宅</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 5: 中心品牌提袋 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="in-progress" data-date="2026-10-16" data-tags="輔銷物 提袋">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 進行中
+              </span>
+              <span class="px-2 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 text-xs font-bold">緊急度：中</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">中心品牌提袋</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">共製作4款袋型，帆布袋兩款、PP磨砂袋、PVC飲料透明提袋</p>
+
+            <div class="proj-img-wrap relative rounded-xl overflow-hidden group cursor-pointer border border-slate-200 dark:border-slate-700" onclick="openLightboxGallery(['./assets/bag_1.jpg', './assets/bag_2.jpg', './assets/bag_3.jpg'], 0, '品牌提袋展示')">
+              <img src="./assets/bag_1.jpg" alt="提袋1" class="w-full h-28 object-cover group-hover:scale-105 transition-transform duration-300" />
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+                <span class="px-2.5 py-1 rounded-full bg-black/60 text-white text-[11px] font-bold backdrop-blur-sm flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i> 點擊放大
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/10/16</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">輔銷物</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">提袋</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 6: 115年度社宅第一次抽籤直播素材 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="backlog" data-date="2026-09-04" data-tags="社會住宅 直播">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold">未來待辦</span>
+              <span class="px-2 py-0.5 rounded-md bg-red-100 dark:bg-red-950/80 text-red-700 dark:text-red-300 text-xs font-bold">緊急度：高</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">115年度社宅第一次抽籤直播素材</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">將於10/13(二)上午11點辦理，需製作官網、社群及直播用素材</p>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/04</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">社會住宅</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">直播</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 7: 中秋社群圖文 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="backlog" data-date="2026-09-23" data-tags="數位廣告 中秋">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold">未來待辦</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-bold">緊急度：低</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">中秋社群圖文</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">預計排程於9/23(三)發佈於FB、IG、THREAD，須同步上限動</p>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/23</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">數位廣告</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">中秋</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 8: 中心球類競賽－影片開頭 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="backlog" data-date="2026-09-11" data-tags="影音剪輯 球類競賽">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold">未來待辦</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 text-xs font-bold">緊急度：中</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">中心球類競賽－影片開頭</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">用於慶生會播放使用</p>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/11</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">影音剪輯</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">球類競賽</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 9: 抵家表情庫製作 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="backlog" data-date="2026-10-02" data-tags="吉祥物 抵家">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold">未來待辦</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 text-xs font-bold">緊急度：低</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">抵家表情庫製作</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">擴充角色元件，利於未來中心宣傳</p>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/10/02</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">吉祥物</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">抵家</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 專案 10: 盤點2025中心影片數量及類型 -->
+        <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 flex flex-col justify-between all-proj-card" data-status="backlog" data-date="2026-09-11" data-tags="影音剪輯 文件製作">
+          <div class="card-body-section space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold">未來待辦</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 text-xs font-bold">緊急度：中</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">盤點2025中心影片數量及類型</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">盤點範圍不含業務部產出，並於後續取得廠商報價(目前1家)，用於未來中心年度影片製作預算規劃</p>
+          </div>
+          <div class="card-footer-section pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
+            <span class="flex items-center gap-1"><i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-slate-400"></i> 2026/09/11</span>
+            <div class="flex items-center gap-1">
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">影音剪輯</span>
+              <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">文件製作</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ================= 圖片燈箱切換彈窗 (Lightbox Gallery Modal) ================= -->
+  <div id="image-lightbox" onclick="closeLightbox()" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4 transition-opacity duration-300 cursor-zoom-out">
+    <div class="relative max-w-4xl max-h-[90vh] bg-transparent rounded-2xl overflow-hidden shadow-2xl flex flex-col items-center" onclick="event.stopPropagation()">
+      
+      <!-- 關閉按鈕 -->
+      <button onclick="closeLightbox()" class="absolute top-4 right-4 p-2.5 rounded-full bg-black/60 text-white hover:bg-black/80 transition-all z-20">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <!-- 上一張 / 下一張 按鈕 (多圖時顯示) -->
+      <button id="lightbox-prev-btn" onclick="prevLightboxImage()" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/80 transition-all z-20 hidden">
+        <i data-lucide="chevron-left" class="w-6 h-6"></i>
+      </button>
+
+      <button id="lightbox-next-btn" onclick="nextLightboxImage()" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/80 transition-all z-20 hidden">
+        <i data-lucide="chevron-right" class="w-6 h-6"></i>
+      </button>
+
+      <!-- 主圖 -->
+      <img id="lightbox-img" src="" alt="專案大圖預覽" class="max-w-full max-h-[75vh] object-contain rounded-xl shadow-2xl transition-all duration-200" />
+      
+      <!-- 圖說與頁數指示 -->
+      <div class="mt-3.5 flex items-center gap-3 px-5 py-2 rounded-full bg-slate-900/90 text-white text-xs font-bold backdrop-blur-md border border-slate-700">
+        <span id="lightbox-caption">專案大圖預覽</span>
+        <span id="lightbox-counter" class="px-2 py-0.5 rounded-full bg-brand-500 text-white text-[10px] font-mono font-bold hidden">1 / 1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 頁尾 ================= -->
+  <footer class="mt-16 border-t border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 py-6 text-center text-xs text-slate-400 dark:text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="font-bold text-brand-900 dark:text-brand-100">NTHURC DESIGN</span>
+        <span>•</span>
+        <span>新北住都中心-設計手冊</span>
+      </div>
+      <p>© 2026 NTHURC Design Team</p>
+    </div>
+  </footer>
+
+  <!-- ================= 全域 Toast 提示彈窗 ================= -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-slate-900/90 dark:bg-slate-800/95 backdrop-blur-md text-white text-xs font-semibold shadow-2xl border border-slate-700">
+    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+    <span id="toast-message">複製成功</span>
+  </div>
+
+  <!-- ================= 互動控制邏輯 (Vanilla JS) ================= -->
+  <script>
+    lucide.createIcons();
+
+    // 暗黑模式管理
+    function initTheme() {
+      const savedTheme = localStorage.getItem('nthurc_theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+        document.documentElement.classList.add('dark');
+        updateThemeIcon(true);
+      } else {
+        document.documentElement.classList.remove('dark');
+        updateThemeIcon(false);
+      }
+    }
+
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('nthurc_theme', isDark ? 'dark' : 'light');
+      updateThemeIcon(isDark);
+      showToast(isDark ? '已切換為深色模式 🌙' : '已切換為淺色模式 ☀️');
+    }
+
+    function updateThemeIcon(isDark) {
+      const icon = document.getElementById('theme-icon');
+      if (icon) {
+        icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+        lucide.createIcons();
+      }
+    }
+
+    // 色票動態選取與邊框微互動
+    function selectColorSwatch(clickedBtn, hexCode, message) {
+      const allBtns = document.querySelectorAll('.color-swatch-btn');
+      allBtns.forEach(btn => {
+        btn.classList.remove('border-2', 'border-brand-500', 'scale-[1.02]', 'shadow-sm', 'dark:border-brand-400');
+        btn.classList.add('border', 'border-slate-200', 'dark:border-slate-700');
+      });
+
+      clickedBtn.classList.remove('border', 'border-slate-200', 'dark:border-slate-700');
+      clickedBtn.classList.add('border-2', 'border-brand-500', 'scale-[1.02]', 'shadow-sm', 'dark:border-brand-400');
+
+      copyToClipboard(hexCode, message);
+    }
+
+    // 一鍵複製功能 + Toast 提示
+    function copyToClipboard(text, message = '已複製到剪貼簿') {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(message);
+        }).catch(() => {
+          fallbackCopy(text, message);
+        });
+      } else {
+        fallbackCopy(text, message);
+      }
+    }
+
+    function fallbackCopy(text, message) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(message);
+      } catch (err) {
+        showToast('複製失敗，請手動選取');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.innerText = message;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+
+    // 圖片燈箱多圖左右切換管理 (Lightbox Gallery)
+    let currentGalleryImages = [];
+    let currentGalleryIndex = 0;
+    let currentGalleryTitle = '';
+
+    function openLightboxGallery(imagesArray, initialIndex = 0, title = '專案大圖預覽') {
+      currentGalleryImages = imagesArray || [];
+      currentGalleryIndex = initialIndex;
+      currentGalleryTitle = title;
+      
+      updateLightboxDisplay();
+      
+      const lightbox = document.getElementById('image-lightbox');
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function updateLightboxDisplay() {
+      if (currentGalleryImages.length === 0) return;
+      const img = document.getElementById('lightbox-img');
+      const caption = document.getElementById('lightbox-caption');
+      const counter = document.getElementById('lightbox-counter');
+      const prevBtn = document.getElementById('lightbox-prev-btn');
+      const nextBtn = document.getElementById('lightbox-next-btn');
+
+      img.src = currentGalleryImages[currentGalleryIndex];
+      caption.innerText = currentGalleryTitle;
+
+      if (currentGalleryImages.length > 1) {
+        counter.innerText = `${currentGalleryIndex + 1} / ${currentGalleryImages.length}`;
+        counter.classList.remove('hidden');
+        prevBtn.classList.remove('hidden');
+        nextBtn.classList.remove('hidden');
+      } else {
+        counter.classList.add('hidden');
+        prevBtn.classList.add('hidden');
+        nextBtn.classList.add('hidden');
+      }
+    }
+
+    function prevLightboxImage() {
+      if (currentGalleryImages.length <= 1) return;
+      currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+      updateLightboxDisplay();
+    }
+
+    function nextLightboxImage() {
+      if (currentGalleryImages.length <= 1) return;
+      currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+      updateLightboxDisplay();
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('image-lightbox');
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+    }
+
+    // 鍵盤切換支援
+    document.addEventListener('keydown', (e) => {
+      const lightbox = document.getElementById('image-lightbox');
+      if (lightbox && !lightbox.classList.contains('hidden')) {
+        if (e.key === 'ArrowLeft') prevLightboxImage();
+        if (e.key === 'ArrowRight') nextLightboxImage();
+        if (e.key === 'Escape') closeLightbox();
+      }
+    });
+
+    // 分頁切換 (支援切換回主頁時滾動到指定區塊)
+    function switchTab(viewName, targetSectionId = null) {
+      const views = ['view-main', 'subpage-digital-ad', 'subpage-print-design', 'subpage-video-editing', 'subpage-all-projects'];
+      views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+
+      if (viewName === 'main') {
+        document.getElementById('view-main').classList.remove('hidden');
+        if (targetSectionId) {
+          scrollToSection(targetSectionId);
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+      lucide.createIcons();
+    }
+
+    function openSubPage(subpageKey) {
+      const views = ['view-main', 'subpage-digital-ad', 'subpage-print-design', 'subpage-video-editing', 'subpage-all-projects'];
+      views.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+
+      const targetId = 'subpage-' + subpageKey;
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      lucide.createIcons();
+    }
+
+    // 專案排程總覽：網格 (Grid) 與 緊湊純文字條列式 (List) 檢視切換
+    let currentViewMode = 'grid';
+
+    function setViewMode(mode) {
+      currentViewMode = mode;
+      const container = document.getElementById('all-projects-container');
+      const cards = document.querySelectorAll('.all-proj-card');
+      const btnGrid = document.getElementById('btn-view-grid');
+      const btnList = document.getElementById('btn-view-list');
+
+      if (mode === 'list') {
+        container.className = 'flex flex-col gap-2.5';
+        cards.forEach(card => {
+          card.classList.add('md:flex-row', 'md:items-center', 'md:justify-between', 'py-3', 'px-5');
+          card.classList.remove('flex-col', 'p-5', 'space-y-3');
+          
+          // 隱藏圖片
+          const imgWrap = card.querySelector('.proj-img-wrap');
+          if (imgWrap) imgWrap.classList.add('hidden');
+
+          const bodySec = card.querySelector('.card-body-section');
+          if (bodySec) {
+            bodySec.classList.add('md:flex', 'md:items-center', 'md:gap-5', 'flex-1');
+            bodySec.classList.remove('space-y-2.5');
+          }
+          const footerSec = card.querySelector('.card-footer-section');
+          if (footerSec) {
+            footerSec.classList.add('md:border-t-0', 'md:pt-0', 'md:flex-row', 'md:items-center', 'md:gap-4', 'flex-shrink-0');
+            footerSec.classList.remove('pt-3');
+          }
+        });
+
+        btnList.className = 'p-1.5 rounded-lg bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-sm transition-all';
+        btnGrid.className = 'p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all';
+      } else {
+        container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+        cards.forEach(card => {
+          card.classList.remove('md:flex-row', 'md:items-center', 'md:justify-between', 'py-3', 'px-5');
+          card.classList.add('flex-col', 'p-5', 'space-y-3');
+          
+          // 顯示圖片
+          const imgWrap = card.querySelector('.proj-img-wrap');
+          if (imgWrap) imgWrap.classList.remove('hidden');
+
+          const bodySec = card.querySelector('.card-body-section');
+          if (bodySec) {
+            bodySec.classList.remove('md:flex', 'md:items-center', 'md:gap-5', 'flex-1');
+            bodySec.classList.add('space-y-2.5');
+          }
+          const footerSec = card.querySelector('.card-footer-section');
+          if (footerSec) {
+            footerSec.classList.remove('md:border-t-0', 'md:pt-0', 'md:flex-row', 'md:items-center', 'md:gap-4', 'flex-shrink-0');
+            footerSec.classList.add('pt-3');
+          }
+        });
+
+        btnGrid.className = 'p-1.5 rounded-lg bg-white dark:bg-slate-700 text-brand-700 dark:text-white shadow-sm transition-all';
+        btnList.className = 'p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-white transition-all';
+      }
+      lucide.createIcons();
+    }
+
+    // 專案篩選引擎 (狀態 + 標籤 + 日期)
+    let currentStatusFilter = 'all';
+    let currentTagFilter = 'all';
+    let currentDateFilter = 'all';
+
+    function setFilterStatus(status) {
+      currentStatusFilter = status;
+      
+      const btnAll = document.getElementById('btn-sub-filter-all');
+      const btnProgress = document.getElementById('btn-sub-filter-progress');
+      const btnBacklog = document.getElementById('btn-sub-filter-backlog');
+
+      [btnAll, btnProgress, btnBacklog].forEach(btn => {
+        btn.className = 'px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all';
+      });
+
+      if (status === 'all') btnAll.className = 'px-3.5 py-1.5 rounded-xl bg-brand-500 text-white shadow-sm transition-all';
+      if (status === 'in-progress') btnProgress.className = 'px-3.5 py-1.5 rounded-xl bg-amber-500 text-white shadow-sm transition-all';
+      if (status === 'backlog') btnBacklog.className = 'px-3.5 py-1.5 rounded-xl bg-slate-700 dark:bg-slate-600 text-white shadow-sm transition-all';
+
+      applyAllFilters();
+    }
+
+    function setFilterTag(tag) {
+      currentTagFilter = tag;
+      
+      const btns = document.querySelectorAll('.tag-filter-btn');
+      btns.forEach(btn => {
+        if (btn.innerText.includes(tag) || (tag === 'all' && btn.innerText === '全部標籤')) {
+          btn.className = 'tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-brand-500 text-white shadow-sm transition-all';
+        } else {
+          btn.className = 'tag-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all';
+        }
+      });
+
+      applyAllFilters();
+    }
+
+    function handleDateFilterChange(val) {
+      currentDateFilter = val;
+      applyAllFilters();
+    }
+
+    function applyAllFilters() {
+      const cards = Array.from(document.querySelectorAll('.all-proj-card'));
+      const container = document.getElementById('all-projects-container');
+
+      cards.forEach(card => {
+        const cardStatus = card.getAttribute('data-status');
+        const cardDate = card.getAttribute('data-date');
+        const cardTags = card.getAttribute('data-tags') || '';
+
+        let matchStatus = (currentStatusFilter === 'all') || (cardStatus === currentStatusFilter);
+        let matchTag = (currentTagFilter === 'all') || (cardTags.includes(currentTagFilter));
+        let matchDate = true;
+
+        if (currentDateFilter === 'sep') {
+          matchDate = cardDate.startsWith('2026-09');
+        } else if (currentDateFilter === 'oct') {
+          matchDate = cardDate.startsWith('2026-10');
+        }
+
+        if (matchStatus && matchTag && matchDate) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      if (currentDateFilter === 'date-asc' || currentDateFilter === 'date-desc') {
+        cards.sort((a, b) => {
+          const dateA = new Date(a.getAttribute('data-date'));
+          const dateB = new Date(b.getAttribute('data-date'));
+          return currentDateFilter === 'date-asc' ? (dateA - dateB) : (dateB - dateA);
+        });
+        cards.forEach(card => container.appendChild(card));
+      }
+
+      lucide.createIcons();
+    }
+
+    // 平滑滾動
+    function scrollToSection(sectionId) {
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const yOffset = -80;
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 50);
+    }
+
+    // 首週清單狀態管理
+    const checklistKeys = ['chk-task-1', 'chk-task-2', 'chk-task-3', 'chk-task-4'];
+
+    function loadChecklistState() {
+      let completedCount = 0;
+      checklistKeys.forEach(key => {
+        const isChecked = localStorage.getItem('intern_hub_' + key) === 'true';
+        const checkbox = document.getElementById(key);
+        if (checkbox) {
+          checkbox.checked = isChecked;
+          toggleTaskStyle(checkbox, isChecked);
+          if (isChecked) completedCount++;
+        }
+      });
+      updateBadge(completedCount);
+    }
+
+    function updateChecklistProgress() {
+      let completedCount = 0;
+      checklistKeys.forEach(key => {
+        const checkbox = document.getElementById(key);
+        if (checkbox) {
+          const isChecked = checkbox.checked;
+          localStorage.setItem('intern_hub_' + key, isChecked);
+          toggleTaskStyle(checkbox, isChecked);
+          if (isChecked) completedCount++;
+        }
+      });
+      updateBadge(completedCount);
+      if (completedCount === checklistKeys.length) {
+        showToast('🎉 首週清單任務已全數完成');
+      }
+    }
+
+    function toggleTaskStyle(checkbox, isChecked) {
+      const label = checkbox.closest('label').querySelector('.task-label');
+      if (label) {
+        if (isChecked) {
+          label.classList.add('line-through', 'text-slate-400');
+          label.classList.remove('text-slate-900', 'dark:text-white');
+        } else {
+          label.classList.remove('line-through', 'text-slate-400');
+          label.classList.add('text-slate-900', 'dark:text-white');
+        }
+      }
+    }
+
+    function updateBadge(count) {
+      const badge = document.getElementById('nav-checklist-count');
+      if (badge) {
+        badge.innerText = `${count}/${checklistKeys.length}`;
+        if (count === checklistKeys.length) {
+          badge.className = 'px-1.5 py-0.2 rounded-md bg-emerald-500 text-white text-[11px] font-bold';
+        } else {
+          badge.className = 'px-1.5 py-0.2 rounded-md bg-brand-100 dark:bg-brand-900/80 text-brand-700 dark:text-brand-300 text-[11px] font-bold';
+        }
+      }
+    }
+
+    function resetChecklist() {
+      checklistKeys.forEach(key => {
+        localStorage.removeItem('intern_hub_' + key);
+        const checkbox = document.getElementById(key);
+        if (checkbox) {
+          checkbox.checked = false;
+          toggleTaskStyle(checkbox, false);
+        }
+      });
+      updateBadge(0);
+      showToast('首週清單已重置');
+    }
+
+    // 初始化頁面
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      loadChecklistState();
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
