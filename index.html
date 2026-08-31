@@ -131,15 +131,77 @@
     .dark .timeline-step::after {
       background: #1E293B;
     }
-    @media (max-width: 768px) {
-      .timeline-step::after {
-        display: none;
-      }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .animate-shake {
+      animation: shake 0.4s ease-in-out;
     }
   </style>
 </head>
 
 <body class="text-slate-800 dark:text-slate-100 antialiased min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+
+  <!-- ================= 通關密碼驗證遮罩 (Password Gate) ================= -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-2xl transition-opacity duration-500">
+    <div id="auth-card" class="glass-card w-full max-w-md p-6 sm:p-8 rounded-3xl shadow-2xl border border-white/40 dark:border-slate-700 space-y-6 text-center relative overflow-hidden bg-white/95 dark:bg-slate-900/95">
+      
+      <!-- 頂部光暈裝飾 -->
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-brand-500/20 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-brand-cyan/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <!-- 圖示與標題 -->
+      <div class="space-y-3 relative z-10">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-white flex items-center justify-center shadow-lg shadow-brand-500/30">
+          <i data-lucide="lock" class="w-7 h-7"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">NTHURC DESIGN</h2>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">新北住都中心 設計手冊</p>
+        </div>
+        <div class="px-4 py-2 rounded-xl bg-brand-50 dark:bg-brand-950/60 border border-brand-200/60 dark:border-brand-800 text-xs text-brand-800 dark:text-brand-300 font-medium">
+          🔒 此手冊包含內部工作規範，請輸入通關密碼解鎖
+        </div>
+      </div>
+
+      <!-- 密碼輸入表單 -->
+      <form onsubmit="handleAuthSubmit(event)" class="space-y-4 relative z-10">
+        <div class="relative">
+          <input 
+            type="password" 
+            id="auth-password-input" 
+            placeholder="請輸入通關密碼" 
+            autocomplete="current-password"
+            class="w-full px-4 py-3.5 pr-11 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all shadow-inner"
+          />
+          <button 
+            type="button" 
+            onclick="togglePasswordVisibility()" 
+            class="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+            <i id="auth-eye-icon" data-lucide="eye" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <p id="auth-error-msg" class="text-xs text-red-500 dark:text-red-400 font-bold hidden flex items-center justify-center gap-1">
+          <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> 密碼錯誤，請重新輸入
+        </p>
+
+        <button 
+          type="submit" 
+          class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white text-sm font-bold shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+          <span>解鎖進入手冊</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+      <div class="pt-2 text-[11px] text-slate-400 dark:text-slate-500">
+        如需密碼請洽設計團隊窗口
+      </div>
+
+    </div>
+  </div>
 
   <!-- ================= 頂部導航欄 ================= -->
   <header class="glass-header sticky top-0 z-40 px-4 lg:px-8 py-3.5">
@@ -190,10 +252,10 @@
           <i id="theme-icon" data-lucide="moon" class="w-4 h-4"></i>
         </button>
 
-        <!-- 首週清單 -->
+        <!-- 首週工作清單 -->
         <button onclick="switchTab('main', 'section-checklist')" class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/90 dark:bg-slate-800 border border-brand-200/70 dark:border-slate-700 hover:border-brand-400 text-xs font-semibold text-brand-800 dark:text-brand-200 shadow-sm transition-all">
           <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i>
-          <span class="hidden sm:inline">首週清單</span>
+          <span class="hidden sm:inline">首週工作清單</span>
           <span id="nav-checklist-count" class="px-1.5 py-0.2 rounded-md bg-brand-100 dark:bg-brand-900/80 text-brand-700 dark:text-brand-300 text-[11px] font-bold">0/4</span>
         </button>
       </div>
@@ -710,11 +772,11 @@
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
             
-            <!-- 分類 A: 中心相關社群與官網 -->
+            <!-- 分類 A: 新北住都中心相關 -->
             <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90">
               <div class="flex items-center gap-2 mb-3.5 pb-2 border-b border-slate-100 dark:border-slate-700">
                 <span class="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400"><i data-lucide="building" class="w-4 h-4"></i></span>
-                <h4 class="text-sm font-bold text-slate-900 dark:text-white">中心相關社群與官網</h4>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">新北住都中心相關</h4>
               </div>
               <div class="space-y-2">
                 <a href="https://www.nthurc.org.tw/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-brand-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
@@ -765,6 +827,69 @@
                     <span class="flex items-center gap-2">
                       <svg class="w-4 h-4 text-slate-900 dark:text-white" viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2109 139.019 87.8451C137.537 60.5382 122.616 44.905 97.4619 44.745C97.1685 44.7431 96.875 44.7422 96.5816 44.7422C74.6294 44.7422 56.4952 58.7495 52.383 80.9575C48.0772 104.21 61.9868 126.969 85.0673 133.843C97.104 137.427 109.914 135.539 120.354 128.665C122.912 126.98 123.633 123.518 121.948 120.96C120.263 118.402 116.801 117.681 114.243 119.366C106.126 124.712 96.155 126.177 86.8298 123.403C68.9664 118.083 58.2045 100.463 61.5401 82.4517C64.6738 65.5284 78.4735 54.8385 96.5816 54.8385C96.8093 54.8385 97.037 54.8392 97.2647 54.8407C116.591 54.9638 127.854 66.8624 128.949 88.0811C117.817 89.9678 107.411 94.6183 99.4975 101.401C88.666 110.686 83.2127 122.756 84.148 135.393C85.1764 149.278 95.8361 159.278 109.117 159.278C123.535 159.278 136.035 147.935 139.754 131.603C143.684 133.916 148.069 135.617 152.793 136.568C155.772 137.168 158.647 135.228 159.247 132.249C159.847 129.27 157.907 126.395 154.928 125.795C148.882 124.577 143.435 121.785 138.835 117.868C142.923 108.571 144.331 98.3976 141.537 88.9883ZM110.155 149.182C101.127 149.182 94.3411 142.188 93.6836 133.313C93.0768 125.109 96.6575 116.924 103.719 110.871C109.842 105.623 117.781 101.996 126.377 100.584C124.084 128.455 117.854 149.182 110.155 149.182Z"/></svg>
                       Threads
+                    </span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 分類 B: 常用設計素材庫 -->
+            <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90">
+              <div class="flex items-center gap-2 mb-3.5 pb-2 border-b border-slate-100 dark:border-slate-700">
+                <span class="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"><i data-lucide="palette" class="w-4 h-4"></i></span>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">常用設計素材庫</h4>
+              </div>
+              <div class="space-y-2">
+                <a href="https://www.freepik.com/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-emerald-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-md bg-[#1273EB] text-white flex items-center justify-center font-black text-[11px]">M</span>
+                    <span>Magnific (各式素材)</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600"></i>
+                </a>
+
+                <a href="https://www.motionelements.com/zh-hant/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-emerald-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-md bg-[#FF5A00] text-white flex items-center justify-center font-bold text-[10px]">
+                      <i data-lucide="play-square" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <span>MotionElements</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600"></i>
+                </a>
+
+                <a href="https://unsplash.com/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-emerald-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-md bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold text-[10px]">U</span>
+                    <span>Unsplash (高畫質圖庫)</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600"></i>
+                </a>
+
+                <a href="https://www.flaticon.com/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-emerald-50/80 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                  <div class="flex items-center gap-2.5">
+                    <span class="w-5 h-5 rounded-md bg-[#38D57A] text-white flex items-center justify-center font-bold text-[10px]">
+                      <i data-lucide="icons" class="w-3.5 h-3.5"></i>
+                    </span>
+                    <span>Flaticon (向量圖示庫)</span>
+                  </div>
+                  <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-600"></i>
+                </a>
+
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                  <a href="https://www.pinterest.com/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-red-50 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                    <span class="flex items-center gap-2">
+                      <span class="w-4 h-4 rounded-full bg-[#BD081C] text-white flex items-center justify-center font-serif text-[10px] font-bold">P</span>
+                      Pinterest
+                    </span>
+                    <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+                  </a>
+
+                  <a href="https://color.adobe.com/" target="_blank" class="flex items-center justify-between p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 hover:bg-amber-50 dark:hover:bg-slate-700 border border-slate-100 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 font-semibold transition-all group">
+                    <span class="flex items-center gap-2">
+                      <span class="w-4 h-4 rounded bg-gradient-to-tr from-pink-500 via-amber-400 to-blue-500"></span>
+                      Adobe Color
                     </span>
                     <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
                   </a>
@@ -1114,86 +1239,73 @@
         </div>
       </section>
 
-      <!-- ================= 底部雙欄 (緊急聯絡人 + 首週清單) ================= -->
+      <!-- ================= 底部雙欄 (緊急聯絡人 + 首週工作清單) ================= -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 pt-4">
         
-        <!-- 緊急聯絡人資訊 -->
+        <!-- 緊急聯絡人 -->
         <section id="section-contacts" class="space-y-4">
           <div class="flex items-center gap-2.5 pb-2 border-b border-slate-200/80 dark:border-slate-700">
             <div class="p-2 rounded-xl bg-slate-800 text-white shadow-sm">
               <i data-lucide="phone-call" class="w-5 h-5"></i>
             </div>
-            <h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">緊急聯絡人資訊</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">緊急聯絡人</h2>
             <span class="text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-full">Who to ask</span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
-            <!-- 凱弘 (設計) -->
-            <div class="glass-card rounded-2xl p-5 border border-brand-200/80 dark:border-slate-700 bg-brand-50/40 dark:bg-slate-800/90 relative overflow-hidden">
-              <div class="flex items-start justify-between">
-                <div>
-                  <span class="px-2 py-0.5 rounded-md bg-brand-500 text-white text-xs font-bold">設計</span>
-                  <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-2">凱弘</h3>
-                  <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">稿件確認 / 規格疑問 / 輔銷物</p>
+          <!-- 統整在同一個卡片容器內 -->
+          <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/90 dark:bg-slate-800/90 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              <!-- 凱弘 (設計) -->
+              <div class="p-4 rounded-xl bg-brand-50/50 dark:bg-slate-900/60 border border-brand-200/60 dark:border-slate-700 flex flex-col justify-between">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="px-2 py-0.5 rounded-md bg-brand-500 text-white text-xs font-bold">設計</span>
+                    <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-1.5">凱弘</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">稿件確認 / 規格疑問 / 輔銷物</p>
+                  </div>
+                  <div class="w-9 h-9 rounded-full bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 flex items-center justify-center font-black text-sm">
+                    弘
+                  </div>
                 </div>
-                <div class="w-10 h-10 rounded-full bg-brand-100 dark:bg-brand-900 text-brand-700 dark:text-brand-300 flex items-center justify-center font-black">
-                  弘
-                </div>
-              </div>
 
-              <div class="mt-4 pt-3 border-t border-brand-200/50 dark:border-slate-700 space-y-2 text-xs">
-                <div class="flex items-center justify-between">
+                <div class="mt-3.5 pt-3 border-t border-brand-200/40 dark:border-slate-700 flex items-center justify-between text-xs">
                   <span class="text-slate-500 dark:text-slate-400">LINE 暱稱</span>
-                  <span class="font-bold text-slate-800 dark:text-slate-200 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-100 dark:border-slate-700">小R</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-slate-500 dark:text-slate-400">手機號碼</span>
-                  <button onclick="copyToClipboard('0903-688-889', '凱弘手機號碼已複製')" class="font-bold text-brand-700 dark:text-brand-300 font-mono hover:underline flex items-center gap-1">
-                    0903-688-889 <i data-lucide="copy" class="w-3 h-3"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- 牧羣 (行銷) -->
-            <div class="glass-card rounded-2xl p-5 border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/90 relative overflow-hidden">
-              <div class="flex items-start justify-between">
-                <div>
-                  <span class="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-xs font-bold">行銷</span>
-                  <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-2">牧羣</h3>
-                  <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">對外公關 / 企劃內容</p>
-                </div>
-                <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center font-black">
-                  羣
+                  <span class="font-bold text-slate-800 dark:text-slate-200 font-mono bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">小R</span>
                 </div>
               </div>
 
-              <div class="mt-4 pt-3 border-t border-slate-200 dark:border-slate-700 space-y-2 text-xs">
-                <div class="flex items-center justify-between">
+              <!-- 牧羣 (行銷) -->
+              <div class="p-4 rounded-xl bg-emerald-50/50 dark:bg-slate-900/60 border border-emerald-200/60 dark:border-slate-700 flex flex-col justify-between">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="px-2 py-0.5 rounded-md bg-emerald-600 text-white text-xs font-bold">行銷</span>
+                    <h3 class="text-lg font-extrabold text-slate-900 dark:text-white mt-1.5">牧羣</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-300 mt-0.5">對外公關 / 企劃內容</p>
+                  </div>
+                  <div class="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 flex items-center justify-center font-black text-sm">
+                    羣
+                  </div>
+                </div>
+
+                <div class="mt-3.5 pt-3 border-t border-emerald-200/40 dark:border-slate-700 flex items-center justify-between text-xs">
                   <span class="text-slate-500 dark:text-slate-400">LINE 暱稱</span>
-                  <span class="font-bold text-slate-800 dark:text-slate-200 font-mono bg-white dark:bg-slate-900 px-2 py-0.5 rounded border border-slate-100 dark:border-slate-700">肯尼馮</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span class="text-slate-500 dark:text-slate-400">手機號碼</span>
-                  <button onclick="copyToClipboard('0917-528-090', '牧羣手機號碼已複製')" class="font-bold text-emerald-700 dark:text-emerald-300 font-mono hover:underline flex items-center gap-1">
-                    0917-528-090 <i data-lucide="copy" class="w-3 h-3"></i>
-                  </button>
+                  <span class="font-bold text-slate-800 dark:text-slate-200 font-mono bg-white dark:bg-slate-800 px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">肯尼馮</span>
                 </div>
               </div>
-            </div>
 
+            </div>
           </div>
         </section>
 
-        <!-- 首週清單 -->
+        <!-- 首週工作清單 -->
         <section id="section-checklist" class="space-y-4">
           <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
             <div class="flex items-center gap-2.5">
               <div class="p-2 rounded-xl bg-emerald-600 text-white shadow-sm">
                 <i data-lucide="check-circle-2" class="w-5 h-5"></i>
               </div>
-              <h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">首週清單</h2>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white tracking-tight">首週工作清單</h2>
               <span class="text-xs font-semibold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full">Onboarding Tasks</span>
             </div>
             <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">重置勾選</button>
@@ -1980,7 +2092,14 @@
         <span>•</span>
         <span>新北住都中心-設計手冊</span>
       </div>
-      <p>© 2026 NTHURC Design Team</p>
+      <div class="flex items-center gap-4">
+        <button onclick="lockApp()" class="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+          <i data-lucide="lock" class="w-3.5 h-3.5"></i>
+          <span>鎖定手冊</span>
+        </button>
+        <span>•</span>
+        <p>© 2026 NTHURC Design Team</p>
+      </div>
     </div>
   </footer>
 
@@ -2412,8 +2531,70 @@
       showToast('首週清單已重置');
     }
 
+    // ================= 通關密碼驗證系統 =================
+    const CORRECT_PASSWORD = 'nthurc-design-2026';
+    const AUTH_STORAGE_KEY = 'nthurc_auth_token';
+
+    function checkAuth() {
+      const modal = document.getElementById('auth-modal');
+      const isAuthed = localStorage.getItem(AUTH_STORAGE_KEY) === 'verified_2026';
+      if (isAuthed) {
+        modal.classList.add('hidden');
+      } else {
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+          const input = document.getElementById('auth-password-input');
+          if (input) input.focus();
+        }, 100);
+      }
+    }
+
+    function handleAuthSubmit(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('auth-password-input');
+      const errorMsg = document.getElementById('auth-error-msg');
+      const card = document.getElementById('auth-card');
+      const modal = document.getElementById('auth-modal');
+
+      if (input.value.trim() === CORRECT_PASSWORD) {
+        localStorage.setItem(AUTH_STORAGE_KEY, 'verified_2026');
+        errorMsg.classList.add('hidden');
+        modal.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 500);
+        showToast('🎉 密碼驗證成功，歡迎使用設計手冊');
+      } else {
+        errorMsg.classList.remove('hidden');
+        input.classList.add('border-red-500', 'focus:ring-red-400');
+        card.classList.remove('animate-shake');
+        void card.offsetWidth; // 觸發重繪
+        card.classList.add('animate-shake');
+        input.focus();
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById('auth-password-input');
+      const icon = document.getElementById('auth-eye-icon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        input.type = 'password';
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    function lockApp() {
+      localStorage.removeItem(AUTH_STORAGE_KEY);
+      location.reload();
+    }
+
     // 初始化頁面
     document.addEventListener('DOMContentLoaded', () => {
+      checkAuth();
       initTheme();
       loadChecklistState();
       lucide.createIcons();
