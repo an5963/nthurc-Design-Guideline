@@ -2087,12 +2087,12 @@
       lucide.createIcons();
     }
 
-    // ⭐ 排序：從上至下以預計完成日為最新（由新到舊）往下排序 (最新在最上方)
+    // ⭐ 排序：以最近日期抓取，由上至下排序（最上面的專案日期為最近期）
     function sortProjectsByDate(list) {
       return [...list].sort((a, b) => {
-        const dA = new Date((a.due_date || '1970-01-01').replace(/\//g, '-'));
-        const dB = new Date((b.due_date || '1970-01-01').replace(/\//g, '-'));
-        return dB - dA; // 最新日期排在最上方
+        const timeA = a.due_date ? new Date(a.due_date.replace(/\//g, '-')).getTime() : Infinity;
+        const timeB = b.due_date ? new Date(b.due_date.replace(/\//g, '-')).getTime() : Infinity;
+        return timeA - timeB; // 最近期（距離現在最近/最小日期）排在最上方
       });
     }
 
@@ -2105,7 +2105,7 @@
     function renderMainProjects() {
       const isEditable = currentUser && (currentUser.role === 'admin' || currentUser.role === 'editor');
       
-      // 依預計完成日挑選最新日期：進行中挑 2 組，未來待辦挑 4 組，皆由最新排至較舊 (最新在最上方)
+      // 皆以最近日期抓取，並從上至下排序 (最上面的專案日期為最近期)：進行中挑 2 組，未來待辦挑 4 組
       const inProgressList = sortProjectsByDate(projectsData.filter(p => p.status === '進行中')).slice(0, 2);
       const backlogList = sortProjectsByDate(projectsData.filter(p => p.status === '未來待辦')).slice(0, 4);
 
