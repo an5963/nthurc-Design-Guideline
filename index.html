@@ -1577,16 +1577,17 @@
 
         <!-- 類別快速篩選標籤 -->
         <div class="mt-6 pt-5 border-t border-slate-200/60 dark:border-slate-700/80 flex flex-wrap gap-2 text-xs font-bold">
-          <button onclick="setBookmarkCategory('all')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-brand-500 text-white shadow-sm transition-all" data-cat="all">全部書籤 (29)</button>
+          <button onclick="setBookmarkCategory('all')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-brand-500 text-white shadow-sm transition-all" data-cat="all">全部書籤 (36)</button>
           <button onclick="setBookmarkCategory('official')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all" data-cat="official">🏛️ 新北住都中心相關 (6)</button>
           <button onclick="setBookmarkCategory('design-assets')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all" data-cat="design-assets">🎨 常用設計素材庫 (6)</button>
           <button onclick="setBookmarkCategory('design-sheets')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all" data-cat="design-sheets">📊 設計相關表單 (4)</button>
           <button onclick="setBookmarkCategory('other-sheets')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all" data-cat="other-sheets">📑 其他表單 (3)</button>
+          <button onclick="setBookmarkCategory('design-files')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all" data-cat="design-files">📁 設計製作檔 (7)</button>
           <button onclick="setBookmarkCategory('tools')" class="bm-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-brand-400 transition-all" data-cat="tools">🛠️ 小工具 (10)</button>
         </div>
       </div>
 
-      <!-- 書籤 5 大分類主網格 (由 renderAllBookmarksSubpage 動態渲染) -->
+      <!-- 書籤 6 大分類主網格 (由 renderAllBookmarksSubpage 動態渲染) -->
       <div id="bookmarks-all-grid" class="space-y-8 is-compact-mode">
         
         <!-- 區塊 1: 新北住都中心相關 -->
@@ -1629,7 +1630,17 @@
           <div class="bm-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
         </div>
 
-        <!-- 區塊 5: 小工具 -->
+        <!-- 區塊 5: 設計製作檔 (新增) -->
+        <div class="bm-section space-y-3" data-cat="design-files">
+          <div class="flex items-center gap-2 pb-2 border-b border-slate-200/80 dark:border-slate-700">
+            <span class="p-1.5 rounded-lg bg-pink-50 dark:bg-pink-950/60 text-pink-600 dark:text-pink-400"><i data-lucide="figma" class="w-4 h-4"></i></span>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">設計製作檔</h3>
+            <span class="text-xs text-slate-400 font-medium ml-1">Figma 原始設計檔與草稿 (Draft)</span>
+          </div>
+          <div class="bm-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+        </div>
+
+        <!-- 區塊 6: 小工具 -->
         <div class="bm-section space-y-3" data-cat="tools">
           <div class="flex items-center gap-2 pb-2 border-b border-slate-200/80 dark:border-slate-700">
             <span class="p-1.5 rounded-lg bg-teal-50 dark:bg-teal-950/60 text-teal-600 dark:text-teal-400"><i data-lucide="wrench" class="w-4 h-4"></i></span>
@@ -1807,6 +1818,7 @@
             <option value="design-assets">🎨 常用設計素材庫</option>
             <option value="design-sheets">📊 設計相關表單</option>
             <option value="other-sheets">📑 其他表單</option>
+            <option value="design-files">📁 設計製作檔</option>
             <option value="tools">🛠️ 小工具</option>
           </select>
         </div>
@@ -1919,7 +1931,15 @@
       { id: 26, category: "tools", title: "表情符號1", subtitle: "Piliapp 社群符號", url: "https://tw.piliapp.com/facebook-symbols/", icon_type: "lucide:smile", keywords: "表情符號1 piliapp fb符號 emoji 社群圖示", show_in_home: false },
       { id: 27, category: "tools", title: "表情符號2", subtitle: "Emoji 一鍵複製", url: "https://emojikopieren.de/", icon_type: "lucide:smile-plus", keywords: "表情符號2 emoji 複製 emojikopieren 貼圖", show_in_home: false },
       { id: 28, category: "tools", title: "箭頭符號", subtitle: "特殊箭頭符號庫", url: "https://tw.piliapp.com/symbol/arrow/", icon_type: "lucide:move-right", keywords: "箭頭符號 piliapp 箭頭 符號 指引 標示 ➔ ➜", show_in_home: false },
-      { id: 29, category: "tools", title: "日期間隔計算", subtitle: "天數與工作日試算", url: "https://0123456789.tw/daybetween/", icon_type: "lucide:calculator", keywords: "日期間隔計算 天數 計算 日期 排程 工作日", show_in_home: false }
+      { id: 29, category: "tools", title: "日期間隔計算", subtitle: "天數與工作日試算", url: "https://0123456789.tw/daybetween/", icon_type: "lucide:calculator", keywords: "日期間隔計算 天數 計算 日期 排程 工作日", show_in_home: false },
+      { id: 30, category: "tools", title: "含稅價計算", subtitle: "5%營業稅與發票計算", url: "https://0123456789.tw/tax/?lang=zh-tw", icon_type: "lucide:receipt", keywords: "含稅價計算 營業稅 5% 發票 稅率 計算 稅金", show_in_home: false },
+      { id: 31, category: "design-files", title: "Figma-文件類", subtitle: "新北住都_文件類設計-Draft", url: "https://www.figma.com/design/abxbjKMq1ChsKwpzjXMPrM/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E6%96%87%E4%BB%B6%E9%A1%9E%E8%A8%AD%E8%A8%88-Draft-?node-id=1-2&p=f&t=QWoRd0qUDdyKYGYc-0", icon_type: "figma", keywords: "Figma 文件類 文件設計 簡報 排版 Draft", show_in_home: false },
+      { id: 32, category: "design-files", title: "Figma-印刷類", subtitle: "新北住都_-印刷類設計-Draft", url: "https://www.figma.com/design/NFai2ztVGY9i2XMUrZosMT/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_-%E5%8D%B0%E5%88%B7%E9%A1%9E%E8%A8%AD%E8%A8%88-Draft-?node-id=2243-23946&t=4IVpe9ZRDiVcPLQD-0", icon_type: "figma", keywords: "Figma 印刷類 印刷設計 手舉牌 海報 輔銷物 Draft", show_in_home: false },
+      { id: 33, category: "design-files", title: "Figma-印刷類2", subtitle: "新北住都_-印刷類設計2-Draft", url: "https://www.figma.com/design/4mhy1Mxr5IMr8ZGTMg5EFs/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_-%E5%8D%B0%E5%88%B7%E9%A1%9E%E8%A8%AD%E8%A8%882-Draft-?t=1HoVKvWyYksKppXW-0", icon_type: "figma", keywords: "Figma 印刷類2 印刷設計 小卡 貼紙 提袋 Draft", show_in_home: false },
+      { id: 34, category: "design-files", title: "Figma-網站素材", subtitle: "新北住都_網站素材設計-Draft", url: "https://www.figma.com/design/nqCSkdywRkK6PunBzatqZH/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E7%B6%B2%E7%AB%99%E7%B4%A0%E6%9D%90%E8%A8%AD%E8%A8%88-Draft-?node-id=1221-57623&recovery=true&t=KOTmTTdWTbTkpiny-0", icon_type: "figma", keywords: "Figma 網站素材 官網 橫幅 Banner 社群圖 Draft", show_in_home: false },
+      { id: 35, category: "design-files", title: "Figma-網站素材2", subtitle: "新北住都_網站素材設計2-Draft", url: "https://www.figma.com/design/uwIrNRW7FYYtTfEboyX0d7/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E7%B6%B2%E7%AB%99%E7%B4%A0%E6%9D%90%E8%A8%AD%E8%A8%882-Draft-?node-id=1-160&p=f&t=Rx5iP1Fv0wmUjfyt-0", icon_type: "figma", keywords: "Figma 網站素材2 官網素材 數位廣告 圖文 Draft", show_in_home: false },
+      { id: 36, category: "design-files", title: "Figma-影音素材", subtitle: "新北住都_影音素材設計-Draft", url: "https://www.figma.com/design/yeQbBdN2kAqemlHAvLKFNC/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E5%BD%B1%E9%9F%B3%E7%B4%A0%E6%9D%90%E8%A8%AD%E8%A8%88-Draft-?node-id=1-160&p=f&t=HyIHYU0KQ61XHKDO-0", icon_type: "figma", keywords: "Figma 影音素材 影片 片頭 字幕 鏡位圖 Draft", show_in_home: false },
+      { id: 37, category: "design-files", title: "Figma-系統頁設計", subtitle: "新北住都_系統頁面設計-Draft", url: "https://www.figma.com/design/bJvyXsj1AKGFA9OYkemiAI/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E7%B3%BB%E7%B5%B1%E9%A0%81%E9%9D%A2%E8%A8%AD%E8%A8%88-Draft-?node-id=1-160&p=f&t=cwgNDmmDfMN3AFtQ-0", icon_type: "figma", keywords: "Figma 系統頁設計 UI 介面 網頁 系統頁面 Draft", show_in_home: false }
     ];
 
     // ================= 三級身分與權限系統 =================
@@ -2245,90 +2265,142 @@
     function getBookmarkBadgeHtml(bm, isSmall = false) {
       const sizeClass = isSmall ? 'w-6 h-6 rounded-lg text-xs' : 'w-9 h-9 rounded-xl text-sm';
       const iconSize = isSmall ? 'w-3.5 h-3.5' : 'w-5 h-5';
-      const id = bm.id;
-      
-      switch (id) {
-        // --- 1. 新北住都中心相關 ---
-        case 1: // 中心官方網站
-          return `<span class="${sizeClass} bg-[#004A85] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="app-window" class="${iconSize}"></i></span>`;
-        case 2: // Facebook
-          return `<span class="${sizeClass} bg-[#EBF5FF] text-[#1877F2] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>`;
-        case 3: // Instagram
-          return `<span class="${sizeClass} bg-[#FDF2F4] text-[#E4405F] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></span>`;
-        case 4: // YouTube
-          return `<span class="${sizeClass} bg-[#FEF2F2] text-[#FF0000] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>`;
-        case 5: // LINE
-          return `<span class="${sizeClass} bg-[#ECFDF5] text-[#06C755] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.392z"/></svg></span>`;
-        case 6: // Threads
-          return `<span class="${sizeClass} bg-[#101010] text-white flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${isSmall ? 'w-3 h-3' : 'w-4 h-4'}" viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2109 139.019 87.8451C137.537 60.5382 122.616 44.905 97.4619 44.745C97.1685 44.7431 96.875 44.7422 96.5816 44.7422C74.6294 44.7422 56.4952 58.7495 52.383 80.9575C48.0772 104.21 61.9868 126.969 85.0673 133.843C97.104 137.427 109.914 135.539 120.354 128.665C122.912 126.98 123.633 123.518 121.948 120.96C120.263 118.402 116.801 117.681 114.243 119.366C106.126 124.712 96.155 126.177 86.8298 123.403C68.9664 118.083 58.2045 100.463 61.5401 82.4517C64.6738 65.5284 78.4735 54.8385 96.5816 54.8385C96.8093 54.8385 97.037 54.8392 97.2647 54.8407C116.591 54.9638 127.854 66.8624 128.949 88.0811C117.817 89.9678 107.411 94.6183 99.4975 101.401C88.666 110.686 83.2127 122.756 84.148 135.393C85.1764 149.278 95.8361 159.278 109.117 159.278C123.535 159.278 136.035 147.935 139.754 131.603C143.684 133.916 148.069 135.617 152.793 136.568C155.772 137.168 158.647 135.228 159.247 132.249C159.847 129.27 157.907 126.395 154.928 125.795C148.882 124.577 143.435 121.785 138.835 117.868C142.923 108.571 144.331 98.3976 141.537 88.9883ZM110.155 149.182C101.127 149.182 94.3411 142.188 93.6836 133.313C93.0768 125.109 96.6575 116.924 103.719 110.871C109.842 105.623 117.781 101.996 126.377 100.584C124.084 128.455 117.854 149.182 110.155 149.182Z"/></svg></span>`;
+      const title = (bm.title || '').trim();
+      const lowerTitle = title.toLowerCase();
 
-        // --- 2. 常用設計素材庫 ---
-        case 7: // Magnific
-          return `<span class="${sizeClass} bg-[#1877F2] text-white font-black flex items-center justify-center shadow-sm flex-shrink-0">M</span>`;
-        case 8: // MotionElements
-          return `<span class="${sizeClass} bg-[#FF4A1C] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="play-square" class="${iconSize}"></i></span>`;
-        case 9: // Unsplash
-          return `<span class="${sizeClass} bg-black text-white font-black flex items-center justify-center shadow-sm flex-shrink-0">U</span>`;
-        case 10: // Flaticon
-          return `<span class="${sizeClass} bg-[#00D084] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="smile" class="${iconSize}"></i></span>`;
-        case 11: // Pinterest
-          return `<span class="${sizeClass} bg-[#BD081C] text-white font-black flex items-center justify-center shadow-sm flex-shrink-0">P</span>`;
-        case 12: // Adobe Color
-          return `<span class="${sizeClass} bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="pipette" class="${iconSize}"></i></span>`;
-
-        // --- 3. 設計相關表單 ---
-        case 13: // 年度行銷排程表
-          return `<span class="${sizeClass} bg-[#EBF3FA] text-[#004A85] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="calendar" class="${iconSize}"></i></span>`;
-        case 14: // 輔銷物庫存表
-          return `<span class="${sizeClass} bg-[#E8F8F0] text-[#10B981] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="boxes" class="${iconSize}"></i></span>`;
-        case 15: // 合作廠商通訊錄
-          return `<span class="${sizeClass} bg-[#F4EFFE] text-[#8B5CF6] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="contact" class="${iconSize}"></i></span>`;
-        case 16: // 社群數據監測表
-          return `<span class="${sizeClass} bg-[#EBF5FE] text-[#0077C8] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="bar-chart-2" class="${iconSize}"></i></span>`;
-
-        // --- 4. 其他表單 ---
-        case 17: // 座位表
-          return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="map-pin" class="${iconSize}"></i></span>`;
-        case 18: // 名片資訊一覽
-          return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="id-card" class="${iconSize}"></i></span>`;
-        case 19: // 攝影器材一覽
-          return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="camera" class="${iconSize}"></i></span>`;
-
-        // --- 5. 小工具 ---
-        case 20: // QR Code產生器
-          return `<span class="${sizeClass} bg-[#E8FBF4] text-[#059669] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="qr-code" class="${iconSize}"></i></span>`;
-        case 21: // tinify圖檔壓縮
-          return `<span class="${sizeClass} bg-[#ECFDF5] text-[#10B981] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="image-down" class="${iconSize}"></i></span>`;
-        case 22: // 影片壓縮
-          return `<span class="${sizeClass} bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="video" class="${iconSize}"></i></span>`;
-        case 23: // 短網址產生
-          return `<span class="${sizeClass} bg-[#F0FDF4] text-[#0D9488] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="link-2" class="${iconSize}"></i></span>`;
-        case 24: // GIF去背
-          return `<span class="${sizeClass} bg-[#FAF5FF] text-[#9333EA] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="scissors" class="${iconSize}"></i></span>`;
-        case 25: // Youtube影音下載
-          return `<span class="${sizeClass} bg-[#FEF2F2] text-[#DC2626] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="download" class="${iconSize}"></i></span>`;
-        case 26: // 表情符號1
-          return `<span class="${sizeClass} bg-[#FFFBEB] text-[#D97706] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="smile" class="${iconSize}"></i></span>`;
-        case 27: // 表情符號2
-          return `<span class="${sizeClass} bg-[#FFFBEB] text-[#D97706] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="smile-plus" class="${iconSize}"></i></span>`;
-        case 28: // 箭頭符號
-          return `<span class="${sizeClass} bg-[#F1F5F9] text-[#334155] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="arrow-right" class="${iconSize}"></i></span>`;
-        case 29: // 日期間隔計算
-          return `<span class="${sizeClass} bg-[#F5F3FF] text-[#7C3AED] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="calculator" class="${iconSize}"></i></span>`;
-        default:
-          if (bm.category === 'official') {
-            return `<span class="${sizeClass} bg-[#004A85] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="building" class="${iconSize}"></i></span>`;
-          } else if (bm.category === 'design-assets') {
-            return `<span class="${sizeClass} bg-[#1877F2] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="palette" class="${iconSize}"></i></span>`;
-          } else if (bm.category === 'design-sheets') {
-            return `<span class="${sizeClass} bg-[#EBF3FA] text-[#004A85] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="file-spreadsheet" class="${iconSize}"></i></span>`;
-          } else if (bm.category === 'other-sheets') {
-            return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="folder" class="${iconSize}"></i></span>`;
-          } else if (bm.category === 'tools') {
-            return `<span class="${sizeClass} bg-[#E8FBF4] text-[#059669] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="wrench" class="${iconSize}"></i></span>`;
-          }
-          return `<span class="${sizeClass} bg-brand-50 text-brand-600 flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="bookmark" class="${iconSize}"></i></span>`;
+      // ⭐ 1. Figma 專屬彩色 5 色 Logo (截圖1)
+      if (lowerTitle.includes('figma') || bm.category === 'design-files') {
+        const svgW = isSmall ? '12' : '17';
+        const svgH = isSmall ? '18' : '25';
+        return `
+          <span class="${sizeClass} bg-[#F8FAFC] dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center shadow-sm flex-shrink-0">
+            <svg width="${svgW}" height="${svgH}" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" class="max-h-full max-w-full">
+              <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+              <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+              <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+              <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+              <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+            </svg>
+          </span>
+        `;
       }
+
+      // ⭐ 2. 小工具專屬圖標 (包含「含稅價計算」及其他小工具)
+      if (/含稅|營業稅|稅率/.test(title) || (bm.url && bm.url.includes('tax'))) {
+        return `<span class="${sizeClass} bg-[#FEF3C7] text-[#D97706] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="receipt" class="${iconSize}"></i></span>`;
+      }
+      if (/日期間隔|工作日/.test(title)) {
+        return `<span class="${sizeClass} bg-[#F5F3FF] text-[#7C3AED] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="calculator" class="${iconSize}"></i></span>`;
+      }
+      if (/qr\s*code|條碼/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#E8FBF4] text-[#059669] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="qr-code" class="${iconSize}"></i></span>`;
+      }
+      if (/tinify|圖片壓縮|圖檔壓縮/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#ECFDF5] text-[#10B981] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="image-down" class="${iconSize}"></i></span>`;
+      }
+      if (/影片壓縮/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#EFF6FF] text-[#2563EB] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="video" class="${iconSize}"></i></span>`;
+      }
+      if (/短網址|reurl/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#F0FDF4] text-[#0D9488] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="link-2" class="${iconSize}"></i></span>`;
+      }
+      if (/gif.*去背|去背/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#FAF5FF] text-[#9333EA] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="scissors" class="${iconSize}"></i></span>`;
+      }
+      if (/youtube.*下載|影音下載/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#FEF2F2] text-[#DC2626] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="download" class="${iconSize}"></i></span>`;
+      }
+      if (/表情符號|emoji/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#FFFBEB] text-[#D97706] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="smile" class="${iconSize}"></i></span>`;
+      }
+      if (/箭頭/.test(title)) {
+        return `<span class="${sizeClass} bg-[#F1F5F9] text-[#334155] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="arrow-right" class="${iconSize}"></i></span>`;
+      }
+
+      // ⭐ 3. 官方社群與常用網站匹配
+      if (/中心官方網站|官方網站|官網/.test(title)) {
+        return `<span class="${sizeClass} bg-[#004A85] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="app-window" class="${iconSize}"></i></span>`;
+      }
+      if (/facebook|臉書/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#EBF5FF] text-[#1877F2] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></span>`;
+      }
+      if (/instagram|ig/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#FDF2F4] text-[#E4405F] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></span>`;
+      }
+      if (/youtube|yt/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#FEF2F2] text-[#FF0000] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></span>`;
+      }
+      if (/line/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#ECFDF5] text-[#06C755] flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${iconSize}" fill="currentColor" viewBox="0 0 24 24"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.392z"/></svg></span>`;
+      }
+      if (/threads/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#101010] text-white flex items-center justify-center shadow-sm flex-shrink-0"><svg class="${isSmall ? 'w-3 h-3' : 'w-4 h-4'}" viewBox="0 0 192 192" fill="currentColor"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2109 139.019 87.8451C137.537 60.5382 122.616 44.905 97.4619 44.745C97.1685 44.7431 96.875 44.7422 96.5816 44.7422C74.6294 44.7422 56.4952 58.7495 52.383 80.9575C48.0772 104.21 61.9868 126.969 85.0673 133.843C97.104 137.427 109.914 135.539 120.354 128.665C122.912 126.98 123.633 123.518 121.948 120.96C120.263 118.402 116.801 117.681 114.243 119.366C106.126 124.712 96.155 126.177 86.8298 123.403C68.9664 118.083 58.2045 100.463 61.5401 82.4517C64.6738 65.5284 78.4735 54.8385 96.5816 54.8385C96.8093 54.8385 97.037 54.8392 97.2647 54.8407C116.591 54.9638 127.854 66.8624 128.949 88.0811C117.817 89.9678 107.411 94.6183 99.4975 101.401C88.666 110.686 83.2127 122.756 84.148 135.393C85.1764 149.278 95.8361 159.278 109.117 159.278C123.535 159.278 136.035 147.935 139.754 131.603C143.684 133.916 148.069 135.617 152.793 136.568C155.772 137.168 158.647 135.228 159.247 132.249C159.847 129.27 157.907 126.395 154.928 125.795C148.882 124.577 143.435 121.785 138.835 117.868C142.923 108.571 144.331 98.3976 141.537 88.9883ZM110.155 149.182C101.127 149.182 94.3411 142.188 93.6836 133.313C93.0768 125.109 96.6575 116.924 103.719 110.871C109.842 105.623 117.781 101.996 126.377 100.584C124.084 128.455 117.854 149.182 110.155 149.182Z"/></svg></span>`;
+      }
+      if (/magnific/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#1877F2] text-white font-black flex items-center justify-center shadow-sm flex-shrink-0">M</span>`;
+      }
+      if (/motionelements/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#FF4A1C] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="play-square" class="${iconSize}"></i></span>`;
+      }
+      if (/unsplash/i.test(title)) {
+        return `<span class="${sizeClass} bg-black text-white font-black flex items-center justify-center shadow-sm flex-shrink-0">U</span>`;
+      }
+      if (/flaticon/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#00D084] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="smile" class="${iconSize}"></i></span>`;
+      }
+      if (/pinterest/i.test(title)) {
+        return `<span class="${sizeClass} bg-[#BD081C] text-white font-black flex items-center justify-center shadow-sm flex-shrink-0">P</span>`;
+      }
+      if (/adobe\s*color/i.test(title)) {
+        return `<span class="${sizeClass} bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="pipette" class="${iconSize}"></i></span>`;
+      }
+      if (/年度行銷排程表|排程表/.test(title)) {
+        return `<span class="${sizeClass} bg-[#EBF3FA] text-[#004A85] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="calendar" class="${iconSize}"></i></span>`;
+      }
+      if (/輔銷物庫存表|庫存表/.test(title)) {
+        return `<span class="${sizeClass} bg-[#E8F8F0] text-[#10B981] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="boxes" class="${iconSize}"></i></span>`;
+      }
+      if (/合作廠商通訊錄|通訊錄/.test(title)) {
+        return `<span class="${sizeClass} bg-[#F4EFFE] text-[#8B5CF6] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="contact" class="${iconSize}"></i></span>`;
+      }
+      if (/社群數據監測表|數據監測/.test(title)) {
+        return `<span class="${sizeClass} bg-[#EBF5FE] text-[#0077C8] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="bar-chart-2" class="${iconSize}"></i></span>`;
+      }
+      if (/座位表/.test(title)) {
+        return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="map-pin" class="${iconSize}"></i></span>`;
+      }
+      if (/名片資訊/.test(title)) {
+        return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="id-card" class="${iconSize}"></i></span>`;
+      }
+      if (/攝影器材/.test(title)) {
+        return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="camera" class="${iconSize}"></i></span>`;
+      }
+
+      // ⭐ 4. 分類 Fallback 兜底
+      if (bm.category === 'official') {
+        return `<span class="${sizeClass} bg-[#004A85] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="building" class="${iconSize}"></i></span>`;
+      } else if (bm.category === 'design-assets') {
+        return `<span class="${sizeClass} bg-[#1877F2] text-white flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="palette" class="${iconSize}"></i></span>`;
+      } else if (bm.category === 'design-sheets') {
+        return `<span class="${sizeClass} bg-[#EBF3FA] text-[#004A85] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="file-spreadsheet" class="${iconSize}"></i></span>`;
+      } else if (bm.category === 'other-sheets') {
+        return `<span class="${sizeClass} bg-[#F0EEFF] text-[#6366F1] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="folder" class="${iconSize}"></i></span>`;
+      } else if (bm.category === 'design-files') {
+        return `
+          <span class="${sizeClass} bg-white dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700 flex items-center justify-center shadow-sm flex-shrink-0 p-1">
+            <svg width="${isSmall ? '12' : '17'}" height="${isSmall ? '18' : '25'}" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg" class="max-h-full max-w-full">
+              <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE"/>
+              <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83"/>
+              <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262"/>
+              <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E"/>
+              <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF"/>
+            </svg>
+          </span>
+        `;
+      } else if (bm.category === 'tools') {
+        return `<span class="${sizeClass} bg-[#E8FBF4] text-[#059669] flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="wrench" class="${iconSize}"></i></span>`;
+      }
+      return `<span class="${sizeClass} bg-brand-50 text-brand-600 flex items-center justify-center shadow-sm flex-shrink-0"><i data-lucide="bookmark" class="${iconSize}"></i></span>`;
     }
 
     function renderMainBookmarks() {
@@ -2374,6 +2446,7 @@
       const assetsCount = bookmarksData.filter(b => b.category === 'design-assets').length;
       const designSheetsCount = bookmarksData.filter(b => b.category === 'design-sheets').length;
       const otherSheetsCount = bookmarksData.filter(b => b.category === 'other-sheets').length;
+      const designFilesCount = bookmarksData.filter(b => b.category === 'design-files').length;
       const toolsCount = bookmarksData.filter(b => b.category === 'tools').length;
 
       const btnAll = document.querySelector('.bm-cat-btn[data-cat="all"]');
@@ -2390,6 +2463,9 @@
 
       const btnOtherSheets = document.querySelector('.bm-cat-btn[data-cat="other-sheets"]');
       if (btnOtherSheets) btnOtherSheets.innerText = `📑 其他表單 (${otherSheetsCount})`;
+
+      const btnDesignFiles = document.querySelector('.bm-cat-btn[data-cat="design-files"]');
+      if (btnDesignFiles) btnDesignFiles.innerText = `📁 設計製作檔 (${designFilesCount})`;
 
       const btnTools = document.querySelector('.bm-cat-btn[data-cat="tools"]');
       if (btnTools) btnTools.innerText = `🛠️ 小工具 (${toolsCount})`;
@@ -2731,6 +2807,7 @@
         'design-assets': ['素材', '圖片', '圖庫', '向量', '音效', '攝影', '版權'],
         'design-sheets': ['表單', '排程', '進度', '庫存', '紀錄', '管理'],
         'other-sheets': ['行政', '清冊', '座位', '通訊', '名單', '表格'],
+        'design-files': ['Figma', '設計檔', '原始檔', 'Draft', '向量', '排版'],
         'tools': ['小工具', '線上', '轉換', '產生器', '計算', '下載', '壓縮']
       };
 
@@ -2742,7 +2819,8 @@
       titleWords.forEach(w => suggestions.add(w));
 
       // 2. 針對常見關鍵字進行語意關聯推薦
-      if (/計算|稅|算|率/.test(title)) { suggestions.add('計算'); suggestions.add('稅率'); suggestions.add('財務'); }
+      if (/figma|draft|設計檔|原始檔|排版/.test(title.toLowerCase())) { suggestions.add('Figma'); suggestions.add('設計檔'); suggestions.add('Draft'); }
+      else if (/計算|稅|算|率/.test(title)) { suggestions.add('計算'); suggestions.add('稅率'); suggestions.add('財務'); }
       else if (/壓縮|圖檔|tiny|size/.test(title.toLowerCase())) { suggestions.add('壓縮'); suggestions.add('瘦身'); suggestions.add('圖片'); }
       else if (/去背|gif|png|ps/.test(title.toLowerCase())) { suggestions.add('去背'); suggestions.add('透明底'); suggestions.add('修圖'); }
       else if (/下載|youtube|影片|mp4/.test(title.toLowerCase())) { suggestions.add('下載'); suggestions.add('轉檔'); suggestions.add('影音'); }
