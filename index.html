@@ -1483,6 +1483,7 @@
               <button onclick="setFilterStatus('all')" class="px-3.5 py-1.5 rounded-xl bg-brand-500 text-white shadow-sm transition-all" id="btn-sub-filter-all">全部</button>
               <button onclick="setFilterStatus('in-progress')" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all" id="btn-sub-filter-progress">進行中</button>
               <button onclick="setFilterStatus('backlog')" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all" id="btn-sub-filter-backlog">未來待辦</button>
+              <button onclick="setFilterStatus('completed')" class="px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all" id="btn-sub-filter-completed">已完成</button>
             </div>
 
           </div>
@@ -1719,6 +1720,7 @@
             <select id="proj-form-status" class="w-full px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
               <option value="進行中">進行中 (In Progress)</option>
               <option value="未來待辦">未來待辦 (Backlog)</option>
+              <option value="已完成">已完成 (Completed)</option>
             </select>
           </div>
 
@@ -2216,9 +2218,19 @@
       container.innerHTML = projectsData.map(proj => {
         const imgs = [proj.img_1, proj.img_2, proj.img_3].filter(Boolean);
         const tags = (proj.tags || '').split(',').map(t => t.trim()).filter(Boolean);
-        const statusBadge = proj.status === '進行中' 
-          ? '<span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 進行中</span>'
-          : '<span class="px-2.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold">未來待辦</span>';
+        
+        let statusBadge = '';
+        let statusDataAttr = 'backlog';
+        if (proj.status === '進行中') {
+          statusBadge = '<span class="px-2.5 py-0.5 rounded-md bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span> 進行中</span>';
+          statusDataAttr = 'in-progress';
+        } else if (proj.status === '已完成') {
+          statusBadge = '<span class="px-2.5 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-bold flex items-center gap-1"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400"></i> 已完成</span>';
+          statusDataAttr = 'completed';
+        } else {
+          statusBadge = '<span class="px-2.5 py-0.5 rounded-md bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold">未來待辦</span>';
+          statusDataAttr = 'backlog';
+        }
 
         let imgHtml = '';
         if (imgs.length > 0) {
@@ -2235,7 +2247,7 @@
         }
 
         return `
-          <div class="glass-card rounded-2xl ${currentViewMode === 'list' ? 'md:flex-row md:items-center md:justify-between py-3 px-5' : 'flex-col p-5 space-y-3'} border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all bg-white/95 dark:bg-slate-800/90 flex justify-between all-proj-card" data-status="${proj.status === '進行中' ? 'in-progress' : 'backlog'}" data-date="${proj.due_date || ''}" data-tags="${tags.join(' ')}">
+          <div class="glass-card rounded-2xl ${currentViewMode === 'list' ? 'md:flex-row md:items-center md:justify-between py-3 px-5' : 'flex-col p-5 space-y-3'} border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all bg-white/95 dark:bg-slate-800/90 flex justify-between all-proj-card" data-status="${statusDataAttr}" data-date="${proj.due_date || ''}" data-tags="${tags.join(' ')}">
             <div class="card-body-section ${currentViewMode === 'list' ? 'md:flex md:items-center md:gap-5 flex-1' : 'space-y-2.5'}">
               <div class="flex items-center justify-between">
                 ${statusBadge}
@@ -2670,7 +2682,7 @@
           document.getElementById('proj-form-title').value = proj.title || '';
           document.getElementById('proj-form-desc').value = proj.description || '';
           document.getElementById('proj-form-status').value = proj.status || '進行中';
-          document.getElementById('proj-form-priority').value = proj.priority || '一般';
+          document.getElementById('proj-form-priority').value = proj.priority || '中';
           document.getElementById('proj-form-due-date').value = proj.due_date || '';
           document.getElementById('proj-form-tags').value = proj.tags || '';
           document.getElementById('proj-form-show-home').checked = (proj.show_in_home !== false);
@@ -3085,15 +3097,17 @@
       const btnAll = document.getElementById('btn-sub-filter-all');
       const btnProgress = document.getElementById('btn-sub-filter-progress');
       const btnBacklog = document.getElementById('btn-sub-filter-backlog');
+      const btnCompleted = document.getElementById('btn-sub-filter-completed');
 
-      if (btnAll && btnProgress && btnBacklog) {
-        [btnAll, btnProgress, btnBacklog].forEach(btn => {
-          btn.className = 'px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all';
-        });
-        if (status === 'all') btnAll.className = 'px-3.5 py-1.5 rounded-xl bg-brand-500 text-white shadow-sm transition-all';
-        if (status === 'in-progress') btnProgress.className = 'px-3.5 py-1.5 rounded-xl bg-amber-500 text-white shadow-sm transition-all';
-        if (status === 'backlog') btnBacklog.className = 'px-3.5 py-1.5 rounded-xl bg-slate-700 dark:bg-slate-600 text-white shadow-sm transition-all';
-      }
+      const allBtns = [btnAll, btnProgress, btnBacklog, btnCompleted].filter(Boolean);
+      allBtns.forEach(btn => {
+        btn.className = 'px-3.5 py-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all';
+      });
+      if (status === 'all' && btnAll) btnAll.className = 'px-3.5 py-1.5 rounded-xl bg-brand-500 text-white shadow-sm transition-all';
+      if (status === 'in-progress' && btnProgress) btnProgress.className = 'px-3.5 py-1.5 rounded-xl bg-amber-500 text-white shadow-sm transition-all';
+      if (status === 'backlog' && btnBacklog) btnBacklog.className = 'px-3.5 py-1.5 rounded-xl bg-slate-700 dark:bg-slate-600 text-white shadow-sm transition-all';
+      if (status === 'completed' && btnCompleted) btnCompleted.className = 'px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white shadow-sm transition-all';
+      
       applyAllFilters();
     }
 
