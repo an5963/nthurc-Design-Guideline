@@ -263,6 +263,10 @@
           <i data-lucide="kanban-square" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
           <span>專案總覽</span>
         </button>
+        <button onclick="switchTab('main', 'section-faq')" class="px-3.5 py-1.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 hover:text-brand-700 dark:hover:text-white transition-all flex items-center gap-1.5">
+          <i data-lucide="help-circle" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
+          <span>常見QA</span>
+        </button>
         <button onclick="switchTab('main', 'section-contacts')" class="px-3.5 py-1.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 hover:text-brand-700 dark:hover:text-white transition-all flex items-center gap-1.5">
           <i data-lucide="phone-call" class="w-3.5 h-3.5 text-brand-500 dark:text-brand-400"></i>
           <span>緊急聯絡</span>
@@ -963,6 +967,77 @@
         </div>
       </section>
 
+      <!-- ================= 模組：常見QA (FAQ Section) ================= -->
+      <section id="section-faq" class="space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+          <div class="flex items-center gap-2.5">
+            <div class="p-2 rounded-xl bg-purple-600 text-white shadow-sm shadow-purple-600/20">
+              <i data-lucide="help-circle" class="w-5 h-5"></i>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">常見QA</h2>
+            <span class="text-xs font-semibold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/50 px-2.5 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">Frequently Asked Questions</span>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <button id="btn-add-faq-main" onclick="openFAQModal()" class="hidden items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>新增QA</span>
+            </button>
+            <button onclick="openSubPage('all-qa')" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold shadow-sm transition-all group">
+              <span>看更多QA</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 欄等寬 Grid：中心相關、都市更新、社會住宅 3 大分類 (最多各 3 筆) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          
+          <!-- 分類 1: 中心相關 -->
+          <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/95 dark:bg-slate-800/90 shadow-sm flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700">
+                <div class="flex items-center gap-2">
+                  <span class="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400"><i data-lucide="building" class="w-4 h-4"></i></span>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">中心相關</h3>
+                </div>
+                <span id="main-faq-count-official" class="px-2 py-0.5 rounded-md bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-[10px] font-bold">最多 3 筆</span>
+              </div>
+              <div id="main-faq-container-official" class="space-y-2.5"></div>
+            </div>
+          </div>
+
+          <!-- 分類 2: 都市更新 -->
+          <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/95 dark:bg-slate-800/90 shadow-sm flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700">
+                <div class="flex items-center gap-2">
+                  <span class="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"><i data-lucide="hammer" class="w-4 h-4"></i></span>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">都市更新</h3>
+                </div>
+                <span id="main-faq-count-ur" class="px-2 py-0.5 rounded-md bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-[10px] font-bold">最多 3 筆</span>
+              </div>
+              <div id="main-faq-container-ur" class="space-y-2.5"></div>
+            </div>
+          </div>
+
+          <!-- 分類 3: 社會住宅 -->
+          <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/95 dark:bg-slate-800/90 shadow-sm flex flex-col justify-between">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-700">
+                <div class="flex items-center gap-2">
+                  <span class="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"><i data-lucide="home" class="w-4 h-4"></i></span>
+                  <h3 class="text-sm font-bold text-slate-900 dark:text-white">社會住宅</h3>
+                </div>
+                <span id="main-faq-count-sh" class="px-2 py-0.5 rounded-md bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-[10px] font-bold">最多 3 筆</span>
+              </div>
+              <div id="main-faq-container-sh" class="space-y-2.5"></div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       <!-- ================= 模組六 & 七：緊急聯絡人 & 首週工作清單 (嚴格依據截圖4) ================= -->
       <section id="section-contacts-and-checklist" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
@@ -1655,6 +1730,119 @@
 
     </div>
 
+    <!-- ======================================================== -->
+    <!-- VIEW G: 獨立子分頁 6 - 常見問題 (QA) 知識庫 -->
+    <!-- ======================================================== -->
+    <div id="subpage-all-qa" class="hidden space-y-8">
+      
+      <!-- 頂部返回與麵包屑 -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-700">
+        <button onclick="switchTab('main', 'section-faq')" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 shadow-sm transition-all self-start">
+          <i data-lucide="arrow-left" class="w-4 h-4 text-slate-500"></i>
+          <span>返回工作手冊</span>
+        </button>
+        <span class="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/50 px-3.5 py-1.5 rounded-full border border-purple-200 dark:border-purple-800 self-start sm:self-auto">
+          常見QA ➔ 完整常見QA
+        </span>
+      </div>
+
+      <!-- Banner Header -->
+      <div class="glass-card rounded-3xl p-6 md:p-8 bg-gradient-to-r from-purple-50/80 via-white to-blue-50/50 dark:from-slate-900 dark:via-slate-900/80 dark:to-purple-950/40 border border-slate-200/80 dark:border-slate-700">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          <div class="flex items-center gap-3.5">
+            <div class="p-3.5 rounded-2xl bg-gradient-to-br from-purple-600 to-brand-600 text-white shadow-md shadow-purple-500/20 flex-shrink-0">
+              <i data-lucide="help-circle" class="w-7 h-7"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">常見QA</h2>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">收錄中心業務、都市更新、社會住宅與常見民眾疑問及答覆，點擊複製即可一鍵複製答覆內容</p>
+            </div>
+          </div>
+
+          <!-- 快速搜尋框與新增按鈕 -->
+          <div class="flex items-center gap-3 w-full lg:w-auto">
+            <div class="relative flex-1 lg:w-72">
+              <input 
+                type="text" 
+                id="faq-search-input" 
+                oninput="filterFAQs(this.value)" 
+                placeholder="搜尋問題、解答或關鍵字..." 
+                class="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/90 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-sm"
+              />
+              <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+            </div>
+            <button id="btn-add-faq-sub" onclick="openFAQModal()" class="hidden items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all flex-shrink-0">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>新增QA</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 類別快速篩選標籤 -->
+        <div class="mt-6 pt-5 border-t border-slate-200/60 dark:border-slate-700/80 flex flex-wrap gap-2 text-xs font-bold">
+          <button onclick="setFAQCategory('all')" class="faq-cat-btn px-3 py-1.5 rounded-xl bg-purple-600 text-white shadow-sm transition-all" data-cat="all">全部 QA (8)</button>
+          <button onclick="setFAQCategory('official')" class="faq-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-purple-400 transition-all" data-cat="official">🏛️ 中心相關 (2)</button>
+          <button onclick="setFAQCategory('ur')" class="faq-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-purple-400 transition-all" data-cat="ur">🏗️ 都市更新 (1)</button>
+          <button onclick="setFAQCategory('sh')" class="faq-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-purple-400 transition-all" data-cat="sh">🏢 社會住宅 (4)</button>
+          <button onclick="setFAQCategory('other')" class="faq-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-purple-400 transition-all" data-cat="other">📑 其他類型 (1)</button>
+        </div>
+      </div>
+
+      <!-- QA 4 大分類主容器 (由 renderAllFAQsSubpage 動態渲染) -->
+      <div id="faqs-all-container" class="space-y-8">
+        
+        <!-- 分類 1: 中心相關 -->
+        <div class="faq-section space-y-4" data-cat="official">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400"><i data-lucide="building" class="w-4 h-4"></i></span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">中心相關 QA</h3>
+            </div>
+            <span class="faq-sec-count text-xs text-slate-400 font-medium">共 2 筆</span>
+          </div>
+          <div class="faq-list space-y-3.5"></div>
+        </div>
+
+        <!-- 分類 2: 都市更新 -->
+        <div class="faq-section space-y-4" data-cat="ur">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"><i data-lucide="hammer" class="w-4 h-4"></i></span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">都市更新 QA</h3>
+            </div>
+            <span class="faq-sec-count text-xs text-slate-400 font-medium">共 1 筆</span>
+          </div>
+          <div class="faq-list space-y-3.5"></div>
+        </div>
+
+        <!-- 分類 3: 社會住宅 -->
+        <div class="faq-section space-y-4" data-cat="sh">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"><i data-lucide="home" class="w-4 h-4"></i></span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">社會住宅 QA</h3>
+            </div>
+            <span class="faq-sec-count text-xs text-slate-400 font-medium">共 4 筆</span>
+          </div>
+          <div class="faq-list space-y-3.5"></div>
+        </div>
+
+        <!-- 分類 4: 其他類型 -->
+        <div class="faq-section space-y-4" data-cat="other">
+          <div class="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-slate-700">
+            <div class="flex items-center gap-2">
+              <span class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400"><i data-lucide="folder" class="w-4 h-4"></i></span>
+              <h3 class="text-base font-bold text-slate-900 dark:text-white">其他類型 QA</h3>
+            </div>
+            <span class="faq-sec-count text-xs text-slate-400 font-medium">共 1 筆</span>
+          </div>
+          <div class="faq-list space-y-3.5"></div>
+        </div>
+
+      </div>
+
+    </div>
+
   </main>
 
   <!-- ================= 圖片燈箱切換彈窗 (Lightbox Gallery Modal) ================= -->
@@ -1863,6 +2051,85 @@
     </div>
   </div>
 
+  <!-- ================= 常見QA 編輯 / 新增彈窗 (FAQ Form Modal) ================= -->
+  <div id="modal-faq-form" class="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="glass-card w-full max-w-xl p-6 sm:p-8 rounded-3xl shadow-2xl border border-slate-200/80 dark:border-slate-700 bg-white/95 dark:bg-slate-900/95 space-y-5 my-8 relative">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+        <div class="flex items-center gap-2.5">
+          <span class="p-2 rounded-xl bg-purple-600 text-white shadow-sm">
+            <i data-lucide="help-circle" class="w-4 h-4"></i>
+          </span>
+          <h3 id="faq-modal-title" class="text-lg font-bold text-slate-900 dark:text-white">新增常見QA</h3>
+        </div>
+        <button onclick="closeFAQModal()" class="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form id="faq-form" onsubmit="handleFAQFormSubmit(event)" class="space-y-4 text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <input type="hidden" id="faq-form-id" value="" />
+
+        <div>
+          <label class="block mb-1 font-bold text-slate-900 dark:text-white">問題分類 *</label>
+          <select id="faq-form-category" onchange="handleFAQCategoryChange(this.value)" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+            <option value="official">🏛️ 中心相關</option>
+            <option value="ur">🏗️ 都市更新</option>
+            <option value="sh">🏢 社會住宅</option>
+            <option value="other">📑 其他類型</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-bold text-slate-900 dark:text-white">Q (問題名稱 / 民眾諮詢主旨) *</label>
+          <input type="text" id="faq-form-question" required placeholder="例: 承租社會住宅資格" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-inner" />
+        </div>
+
+        <div>
+          <label class="block mb-1 font-bold text-slate-900 dark:text-white">A (答案內容 / 標準回覆，支援多行與超連結) *</label>
+          <textarea id="faq-form-answer" rows="5" required placeholder="請輸入標準回覆內容..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-normal leading-relaxed text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-inner"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block mb-1 font-bold text-slate-900 dark:text-white">問題標籤 (以逗號分隔)</label>
+            <input type="text" id="faq-form-tags" placeholder="例: 社宅, 申請資格, 抽籤" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+
+          <div>
+            <label class="block mb-1 font-bold text-slate-900 dark:text-white">最後更新日期</label>
+            <input type="date" id="faq-form-updated-at" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500" />
+          </div>
+        </div>
+
+        <!-- 是否於外層顯示 (僅中心相關、都市更新、社會住宅可選，且各類上限 3 張) -->
+        <div id="faq-show-home-wrapper" class="p-3 rounded-xl bg-purple-50/60 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-900/60 space-y-1">
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="faq-form-show-home" onchange="validateFAQShowHomeLimit(this)" class="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500" />
+            <label for="faq-form-show-home" class="text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer">在工作手冊首頁外層展示</label>
+          </div>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 pl-6">
+            僅中心相關、都市更新、社會住宅可於首頁外層展示，每個分類最多勾選 3 筆。
+          </p>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800 gap-3">
+          <button type="button" id="faq-btn-delete" onclick="handleFAQDelete()" class="px-4 py-2.5 rounded-xl bg-red-50 hover:bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-300 font-bold transition-all hidden flex items-center gap-1.5">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> 刪除此QA
+          </button>
+          <div class="flex items-center gap-2 ml-auto">
+            <button type="button" onclick="closeFAQModal()" class="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold transition-all">
+              取消
+            </button>
+            <button type="submit" id="faq-btn-save" class="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-md shadow-purple-500/25 transition-all flex items-center gap-2">
+              <i data-lucide="save" class="w-4 h-4"></i>
+              <span>儲存並同步至雲端</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ================= 頁尾 ================= -->
   <footer class="mt-16 border-t border-slate-200/80 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60 py-6 text-center text-xs text-slate-400 dark:text-slate-500">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -1942,6 +2209,90 @@
       { id: 35, category: "design-files", title: "Figma-網站素材2", subtitle: "新北住都_網站素材設計2-Draft", url: "https://www.figma.com/design/uwIrNRW7FYYtTfEboyX0d7/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E7%B6%B2%E7%AB%99%E7%B4%A0%E6%9D%90%E8%A8%AD%E8%A8%882-Draft-?node-id=1-160&p=f&t=Rx5iP1Fv0wmUjfyt-0", icon_type: "figma", keywords: "Figma 網站素材2 官網素材 數位廣告 圖文 Draft", show_in_home: false },
       { id: 36, category: "design-files", title: "Figma-影音素材", subtitle: "新北住都_影音素材設計-Draft", url: "https://www.figma.com/design/yeQbBdN2kAqemlHAvLKFNC/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E5%BD%B1%E9%9F%B3%E7%B4%A0%E6%9D%90%E8%A8%AD%E8%A8%88-Draft-?node-id=1-160&p=f&t=HyIHYU0KQ61XHKDO-0", icon_type: "figma", keywords: "Figma 影音素材 影片 片頭 字幕 鏡位圖 Draft", show_in_home: false },
       { id: 37, category: "design-files", title: "Figma-系統頁設計", subtitle: "新北住都_系統頁面設計-Draft", url: "https://www.figma.com/design/bJvyXsj1AKGFA9OYkemiAI/%E6%96%B0%E5%8C%97%E4%BD%8F%E9%83%BD_%E7%B3%BB%E7%B5%B1%E9%A0%81%E9%9D%A2%E8%A8%AD%E8%A8%88-Draft-?node-id=1-160&p=f&t=cwgNDmmDfMN3AFtQ-0", icon_type: "figma", keywords: "Figma 系統頁設計 UI 介面 網頁 系統頁面 Draft", show_in_home: false }
+    ];
+
+    // 初始常見QA資料庫 (8 筆預設資料)
+    let faqsData = [
+      {
+        id: 1,
+        category: "official",
+        question: "關於新北住都中心",
+        answer: "您好，本中心以行政法人角色推動都市更新、管理社會住宅，並提供民眾相關服務，如果想了解更多或需要諮詢，歡迎與我們聯繫 ! \n服務據點：新北市新店區北新路一段86號18樓(新店區公所捷運站)\n服務專線：(02)2957-1999，若非上班時間，請您以訊息留下問題或意見，我們將有專人回覆\n\n點選下方連結進入本中心官方網站了解最新資訊 !\nhttps://www.nthurc.org.tw/",
+        tags: "中心介紹, 聯絡方式, 服務據點",
+        updated_at: "2026-09-01",
+        show_in_home: true,
+        sort_order: 1
+      },
+      {
+        id: 2,
+        category: "official",
+        question: "論文徵選活動",
+        answer: "您好，有關論文活動詳情，請至以下網址查閱\nhttps://www.nthurc.org.tw/cfp/announcement/512",
+        tags: "論文徵選, 活動公告",
+        updated_at: "2026-09-01",
+        show_in_home: true,
+        sort_order: 2
+      },
+      {
+        id: 3,
+        category: "ur",
+        question: "都市更新",
+        answer: "您有都市更新的相關疑問嗎？\n歡迎留下您的問題或建議\n我們會盡快為您安排專人回覆或可致電本中心由專人為您說明\n\n服務據點：新北市新店區北新路一段86號18樓(新店區公所捷運站)\n服務專線：(02)2957-1999，若非上班時間，請您以訊息留下問題或意見，我們將有專人回覆\n\n點選下方連結進入本中心官方網站了解最新資訊 !\nhttps://www.nthurc.org.tw/",
+        tags: "都市更新, 都更諮詢, 專人服務",
+        updated_at: "2026-09-01",
+        show_in_home: true,
+        sort_order: 1
+      },
+      {
+        id: 4,
+        category: "sh",
+        question: "你好～想請問115年第一次隨到隨辦什麼時候要抽籤？",
+        answer: "您好，預訂於115年10月13日(二)進行電腦抽籤，當天會線上直播，謝謝\nhttps://www.nthurc.org.tw/leasing-news/75",
+        tags: "社宅, 隨到隨辦, 電腦抽籤, 直播",
+        updated_at: "2026-09-01",
+        show_in_home: true,
+        sort_order: 1
+      },
+      {
+        id: 5,
+        category: "sh",
+        question: "請問這次抽籤結果什麼時候公布呢",
+        answer: "您好，電腦抽籤後當日下午就會在官網及社群公布結果\nhttps://www.nthurc.org.tw/leasing-news/75",
+        tags: "社宅, 抽籤結果, 官網公告",
+        updated_at: "2026-09-01",
+        show_in_home: true,
+        sort_order: 2
+      },
+      {
+        id: 6,
+        category: "sh",
+        question: "請問新北市目前有哪些可以申請的社會住宅",
+        answer: "您好，目前招租資訊請留意本中心官網及臉書公告\n官方網站：https://www.nthurc.org.tw/\n臉書：https://www.facebook.com/NTHURC\n\n如有疑問歡迎致電專線洽詢 ：\n📞(02)2957-1999 分機116",
+        tags: "社宅, 招租資訊, 申請社宅",
+        updated_at: "2026-09-01",
+        show_in_home: true,
+        sort_order: 3
+      },
+      {
+        id: 7,
+        category: "sh",
+        question: "承租社會住宅資格",
+        answer: "您好，\n承租社會住宅資格共有四大類限制，說明如下：\n(一)申請資格限制：需為年滿 20 歲之國民，以及在新北市有設籍或就學、就業\n(二)財產限制：家庭成員於北、北、基、桃均無自有住宅\n(三)所得限制：家庭加總之年所得 < 132 萬元(含)；平均每人每月所得 < 55,300 元(含)\n(四)住宅資源不得重複享有限制：家庭成員有申請等候或承租國宅、公營住宅或社宅，還是可以申請，但是中籤後，請於簽訂本案租賃契約前，應事先完成放棄等候或退租。",
+        tags: "社宅資格, 申請條件, 所得限制, 財產限制",
+        updated_at: "2026-09-01",
+        show_in_home: false,
+        sort_order: 4
+      },
+      {
+        id: 8,
+        category: "other",
+        question: "詢問OOO社宅、OOO社宅等字眼",
+        answer: "您好，這是由國家住都中心(中央)負責招租及管理的社宅，並非本中心(新北市)負責，如需諮詢，建議您洽詢國家住都中心，謝謝",
+        tags: "中央社宅, 國家住都中心",
+        updated_at: "2026-09-01",
+        show_in_home: false,
+        sort_order: 1
+      }
     ];
 
     // ================= 三級身分與權限系統 =================
@@ -2054,11 +2405,15 @@
       const addProjSub = document.getElementById('btn-add-project-sub');
       const addBmMain = document.getElementById('btn-add-bookmark-main');
       const addBmSub = document.getElementById('btn-add-bookmark-sub');
+      const addFaqMain = document.getElementById('btn-add-faq-main');
+      const addFaqSub = document.getElementById('btn-add-faq-sub');
 
       if (addProjMain) addProjMain.className = isEditable ? 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-sm transition-all' : 'hidden';
       if (addProjSub) addProjSub.className = isEditable ? 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-sm transition-all' : 'hidden';
       if (addBmMain) addBmMain.className = isEditable ? 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm transition-all' : 'hidden';
       if (addBmSub) addBmSub.className = isEditable ? 'inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold shadow-sm transition-all flex-shrink-0' : 'hidden';
+      if (addFaqMain) addFaqMain.className = isEditable ? 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all' : 'hidden';
+      if (addFaqSub) addFaqSub.className = isEditable ? 'inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-all flex-shrink-0' : 'hidden';
     }
 
     function shakeAuthCard() {
@@ -2093,6 +2448,9 @@
           if (json.data.bookmarks && json.data.bookmarks.length > 0) {
             bookmarksData = json.data.bookmarks;
           }
+          if (json.data.faqs && json.data.faqs.length > 0) {
+            faqsData = json.data.faqs;
+          }
           renderAllViews();
         }
       } catch (err) {
@@ -2100,12 +2458,14 @@
       }
     }
 
-    // ================= 專案總覽動態渲染模組 =================
+    // ================= 專案、書籤與QA動態渲染模組 =================
     function renderAllViews() {
       renderMainProjects();
       renderAllProjectsSubpage();
       renderMainBookmarks();
       renderAllBookmarksSubpage();
+      renderMainFAQs();
+      renderAllFAQsSubpage();
       lucide.createIcons();
     }
 
@@ -2252,7 +2612,7 @@
               <div class="flex items-center justify-between">
                 ${statusBadge}
                 <div class="flex items-center gap-1.5">
-                  ${getPriorityBadge(proj.priority)}
+                  ${proj.status === '已完成' ? '' : getPriorityBadge(proj.priority)}
                   ${isEditable ? `<button onclick="openProjectModal(${proj.id})" class="p-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-amber-600 transition-colors" title="編輯專案"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>` : ''}
                 </div>
               </div>
@@ -2961,6 +3321,434 @@
       }
     }
 
+    // ================= 常見QA模組 (渲染 / 複製 / 篩選 / 排序 / Modal 操作) =================
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function formatQAAnswerHtml(answer) {
+      if (!answer) return '';
+      let escaped = escapeHtml(answer);
+      const urlPattern = /(https?:\/\/[^\s<]+)/g;
+      escaped = escaped.replace(urlPattern, function(url) {
+        return `<a href="${url}" target="_blank" class="text-purple-600 dark:text-purple-400 font-medium underline hover:text-purple-700 dark:hover:text-purple-300 break-all inline-flex items-center gap-1" onclick="event.stopPropagation()">${url} <i data-lucide="external-link" class="w-3 h-3 inline flex-shrink-0"></i></a>`;
+      });
+      return escaped.replace(/\n/g, '<br>');
+    }
+
+    function copyQAAnswer(faqId, e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+      const faq = faqsData.find(f => f.id === parseInt(faqId));
+      if (!faq || !faq.answer) return;
+      copyToClipboard(faq.answer, '📋 QA 回答內容已複製至剪貼簿！');
+    }
+
+    function renderMainFAQs() {
+      const isEditable = currentUser && (currentUser.role === 'admin' || currentUser.role === 'editor');
+      const cats = [
+        { key: 'official', containerId: 'main-faq-container-official', countId: 'main-faq-count-official' },
+        { key: 'ur', containerId: 'main-faq-container-ur', countId: 'main-faq-count-ur' },
+        { key: 'sh', containerId: 'main-faq-container-sh', countId: 'main-faq-count-sh' }
+      ];
+
+      cats.forEach(c => {
+        const container = document.getElementById(c.containerId);
+        const countEl = document.getElementById(c.countId);
+        if (!container) return;
+
+        // 外層僅顯示中心相關、都市更新、社會住宅 3 大分類，且最多各顯示 3 筆
+        const items = faqsData
+          .filter(f => f.category === c.key && f.show_in_home !== false)
+          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0))
+          .slice(0, 3);
+
+        if (countEl) {
+          countEl.innerText = `顯示 ${items.length} 筆`;
+        }
+
+        if (items.length === 0) {
+          container.innerHTML = `<div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/40 text-center text-xs text-slate-400 font-medium">目前尚無外層展示之 QA</div>`;
+          return;
+        }
+
+        container.innerHTML = items.map(faq => `
+          <div class="p-3 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700/80 hover:border-purple-300 dark:hover:border-purple-700 transition-all space-y-2 group">
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-start gap-1.5 min-w-0">
+                <span class="w-4.5 h-4.5 rounded-md bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 font-black text-[11px] flex items-center justify-center flex-shrink-0 mt-0.5">Q</span>
+                <h4 class="text-xs font-bold text-slate-900 dark:text-white leading-snug">${escapeHtml(faq.question)}</h4>
+              </div>
+              <div class="flex items-center gap-1 flex-shrink-0">
+                <button onclick="copyQAAnswer(${faq.id}, event)" class="p-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950 text-slate-500 hover:text-purple-600 dark:text-slate-400 dark:hover:text-purple-300 border border-slate-200 dark:border-slate-700 shadow-sm transition-all" title="複製回答內容">
+                  <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                </button>
+                ${isEditable ? `<button onclick="openFAQModal(${faq.id})" class="p-1 rounded-lg bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950 text-slate-500 hover:text-purple-600 dark:text-slate-400 dark:hover:text-purple-300 border border-slate-200 dark:border-slate-700 shadow-sm transition-all" title="編輯此 QA"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>` : ''}
+              </div>
+            </div>
+            <div class="pl-6 text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed max-h-32 overflow-y-auto pr-1">
+              ${formatQAAnswerHtml(faq.answer)}
+            </div>
+          </div>
+        `).join('');
+      });
+    }
+
+    let currentFAQCategory = 'all';
+    let currentFAQQuery = '';
+
+    function updateFAQCategoryCounts() {
+      const allCount = faqsData.length;
+      const officialCount = faqsData.filter(f => f.category === 'official').length;
+      const urCount = faqsData.filter(f => f.category === 'ur').length;
+      const shCount = faqsData.filter(f => f.category === 'sh').length;
+      const otherCount = faqsData.filter(f => f.category === 'other').length;
+
+      const btnAll = document.querySelector('.faq-cat-btn[data-cat="all"]');
+      if (btnAll) btnAll.innerText = `全部 QA (${allCount})`;
+
+      const btnOfficial = document.querySelector('.faq-cat-btn[data-cat="official"]');
+      if (btnOfficial) btnOfficial.innerText = `🏛️ 中心相關 (${officialCount})`;
+
+      const btnUr = document.querySelector('.faq-cat-btn[data-cat="ur"]');
+      if (btnUr) btnUr.innerText = `🏗️ 都市更新 (${urCount})`;
+
+      const btnSh = document.querySelector('.faq-cat-btn[data-cat="sh"]');
+      if (btnSh) btnSh.innerText = `🏢 社會住宅 (${shCount})`;
+
+      const btnOther = document.querySelector('.faq-cat-btn[data-cat="other"]');
+      if (btnOther) btnOther.innerText = `📑 其他類型 (${otherCount})`;
+    }
+
+    function renderAllFAQsSubpage() {
+      const isEditable = currentUser && (currentUser.role === 'admin' || currentUser.role === 'editor');
+      const sections = document.querySelectorAll('.faq-section');
+
+      sections.forEach(sec => {
+        const catKey = sec.dataset.cat;
+        const listEl = sec.querySelector('.faq-list');
+        const countEl = sec.querySelector('.faq-sec-count');
+        if (!listEl) return;
+
+        const items = faqsData
+          .filter(f => f.category === catKey)
+          .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+        if (countEl) countEl.innerText = `共 ${items.length} 筆`;
+
+        if (items.length === 0) {
+          listEl.innerHTML = `<div class="p-6 rounded-2xl bg-white/60 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 text-center text-xs text-slate-400 font-medium">目前尚無此分類之 QA 資料</div>`;
+          return;
+        }
+
+        listEl.innerHTML = items.map((faq, idx) => {
+          const tags = (faq.tags || '').split(',').map(t => t.trim()).filter(Boolean);
+          const showHomeBadge = (faq.show_in_home !== false && faq.category !== 'other')
+            ? `<span class="px-2 py-0.5 rounded-md bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 text-[10px] font-bold flex items-center gap-1 border border-purple-200 dark:border-purple-800"><i data-lucide="sparkles" class="w-3 h-3"></i> 首頁外層展示</span>`
+            : '';
+
+          return `
+            <div class="faq-card glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 bg-white/95 dark:bg-slate-800/90 shadow-sm space-y-3.5 hover:border-purple-400 dark:hover:border-purple-500 transition-all group" data-category="${faq.category}" data-search="${faq.question} ${faq.answer} ${faq.tags || ''}">
+              
+              <!-- 頂部問題列 (Q) 與操作按鈕 -->
+              <div class="flex items-start justify-between gap-3">
+                <div class="flex items-start gap-2.5 min-w-0 flex-1">
+                  <span class="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-600 to-brand-600 text-white font-black text-xs flex items-center justify-center flex-shrink-0 mt-0.5 shadow-sm">Q</span>
+                  <div class="space-y-1 min-w-0">
+                    <h4 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white leading-snug">${escapeHtml(faq.question)}</h4>
+                    <div class="flex flex-wrap items-center gap-1.5 pt-0.5">
+                      ${showHomeBadge}
+                      ${tags.map(t => `<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-700/80 text-slate-600 dark:text-slate-300 font-semibold text-[10px] border border-slate-200 dark:border-slate-600">#${escapeHtml(t)}</span>`).join('')}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                  <button onclick="copyQAAnswer(${faq.id}, event)" class="p-2 rounded-xl bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900 text-purple-700 dark:text-purple-300 border border-purple-200/80 dark:border-purple-800 text-xs font-bold flex items-center gap-1 shadow-sm transition-all" title="一鍵複製回答內容">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">複製回答</span>
+                  </button>
+                  
+                  ${isEditable ? `
+                    <div class="flex items-center gap-1 ml-1 pl-2 border-l border-slate-200 dark:border-slate-700">
+                      ${idx > 0 ? `
+                        <button onclick="moveFAQOrder(${faq.id}, -1)" class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-purple-600 transition-colors" title="上移排序">
+                          <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+                        </button>
+                      ` : '<span class="w-6.5"></span>'}
+                      ${idx < items.length - 1 ? `
+                        <button onclick="moveFAQOrder(${faq.id}, 1)" class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-purple-600 transition-colors" title="下移排序">
+                          <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                        </button>
+                      ` : '<span class="w-6.5"></span>'}
+                      <button onclick="openFAQModal(${faq.id})" class="p-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:text-purple-600 transition-colors ml-1" title="編輯此 QA">
+                        <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- 回答內容 (A) -->
+              <div class="p-4 rounded-xl bg-slate-50/90 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-700/80 text-xs leading-relaxed text-slate-700 dark:text-slate-200 font-medium">
+                ${formatQAAnswerHtml(faq.answer)}
+              </div>
+
+              <!-- 底部最後更新時間 -->
+              <div class="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 pt-1">
+                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 最後更新：${faq.updated_at || '未設定'}</span>
+                <span class="font-mono text-[10px] text-slate-300 dark:text-slate-600">ID: #${faq.id}</span>
+              </div>
+
+            </div>
+          `;
+        }).join('');
+      });
+
+      updateFAQCategoryCounts();
+      applyFAQFilter();
+    }
+
+    function setFAQCategory(cat) {
+      currentFAQCategory = cat;
+      const btns = document.querySelectorAll('.faq-cat-btn');
+      btns.forEach(b => {
+        if (b.dataset.cat === cat) {
+          b.className = 'faq-cat-btn px-3 py-1.5 rounded-xl bg-purple-600 text-white shadow-sm transition-all';
+        } else {
+          b.className = 'faq-cat-btn px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-purple-400 transition-all';
+        }
+      });
+      applyFAQFilter();
+    }
+
+    function filterFAQs(val) {
+      currentFAQQuery = (val || '').toLowerCase().trim();
+      applyFAQFilter();
+    }
+
+    function applyFAQFilter() {
+      const sections = document.querySelectorAll('.faq-section');
+      const cards = document.querySelectorAll('.faq-card');
+
+      cards.forEach(card => {
+        const cat = card.dataset.category;
+        const searchTarget = (card.dataset.search || '').toLowerCase();
+        const matchCat = (currentFAQCategory === 'all') || (cat === currentFAQCategory);
+        const matchQuery = !currentFAQQuery || searchTarget.includes(currentFAQQuery);
+
+        if (matchCat && matchQuery) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      sections.forEach(sec => {
+        const cat = sec.dataset.cat;
+        if (currentFAQCategory !== 'all' && currentFAQCategory !== cat) {
+          sec.classList.add('hidden');
+        } else {
+          const visibleCards = sec.querySelectorAll('.faq-card:not(.hidden)');
+          if (visibleCards.length > 0 || !currentFAQQuery) {
+            sec.classList.remove('hidden');
+          } else {
+            sec.classList.add('hidden');
+          }
+        }
+      });
+
+      lucide.createIcons();
+    }
+
+    function handleFAQCategoryChange(val) {
+      const wrapper = document.getElementById('faq-show-home-wrapper');
+      const chk = document.getElementById('faq-form-show-home');
+      if (val === 'other') {
+        if (wrapper) wrapper.classList.add('hidden');
+        if (chk) chk.checked = false;
+      } else {
+        if (wrapper) wrapper.classList.remove('hidden');
+      }
+    }
+
+    function validateFAQShowHomeLimit(chk) {
+      if (!chk.checked) return;
+      const cat = document.getElementById('faq-form-category').value;
+      const currentId = parseInt(document.getElementById('faq-form-id').value) || null;
+
+      if (cat === 'other') {
+        chk.checked = false;
+        alert('「其他類型」QA 不支援在首頁外層展示。');
+        return;
+      }
+
+      const existingHomeCount = faqsData.filter(f => f.category === cat && f.show_in_home !== false && f.id !== currentId).length;
+      if (existingHomeCount >= 3) {
+        alert(`⚠️「${cat === 'official' ? '中心相關' : cat === 'ur' ? '都市更新' : '社會住宅'}」分類於首頁外層已選滿 3 張卡片！\n若要展示此張，請先至其他 QA 卡片取消外層展示勾選。`);
+        chk.checked = false;
+      }
+    }
+
+    function openFAQModal(faqId = null) {
+      const modal = document.getElementById('modal-faq-form');
+      const titleEl = document.getElementById('faq-modal-title');
+      const delBtn = document.getElementById('faq-btn-delete');
+
+      if (faqId) {
+        const faq = faqsData.find(f => f.id === parseInt(faqId));
+        if (faq) {
+          titleEl.innerText = '編輯常見QA';
+          document.getElementById('faq-form-id').value = faq.id;
+          document.getElementById('faq-form-category').value = faq.category || 'official';
+          document.getElementById('faq-form-question').value = faq.question || '';
+          document.getElementById('faq-form-answer').value = faq.answer || '';
+          document.getElementById('faq-form-tags').value = faq.tags || '';
+          document.getElementById('faq-form-updated-at').value = faq.updated_at || new Date().toISOString().split('T')[0];
+          document.getElementById('faq-form-show-home').checked = (faq.show_in_home !== false && faq.category !== 'other');
+          
+          handleFAQCategoryChange(faq.category || 'official');
+          delBtn.classList.remove('hidden');
+        }
+      } else {
+        titleEl.innerText = '新增常見QA';
+        document.getElementById('faq-form').reset();
+        document.getElementById('faq-form-id').value = '';
+        document.getElementById('faq-form-category').value = 'official';
+        document.getElementById('faq-form-updated-at').value = new Date().toISOString().split('T')[0];
+        document.getElementById('faq-form-show-home').checked = false;
+        handleFAQCategoryChange('official');
+        delBtn.classList.add('hidden');
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+
+    function closeFAQModal() {
+      const modal = document.getElementById('modal-faq-form');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    async function handleFAQFormSubmit(e) {
+      e.preventDefault();
+      const saveBtn = document.getElementById('faq-btn-save');
+      const originalText = saveBtn.innerHTML;
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>儲存中...</span>';
+      lucide.createIcons();
+
+      const faqId = document.getElementById('faq-form-id').value;
+      const category = document.getElementById('faq-form-category').value;
+      const showHome = category !== 'other' && document.getElementById('faq-form-show-home').checked;
+
+      const payload = {
+        id: faqId ? parseInt(faqId) : null,
+        category: category,
+        question: document.getElementById('faq-form-question').value.trim(),
+        answer: document.getElementById('faq-form-answer').value.trim(),
+        tags: document.getElementById('faq-form-tags').value.trim(),
+        updated_at: document.getElementById('faq-form-updated-at').value || new Date().toISOString().split('T')[0],
+        show_in_home: showHome,
+        sort_order: 99
+      };
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'saveQA', payload: payload })
+        });
+        const json = await res.json();
+        if (json.success) {
+          showToast('🎉 QA 已成功儲存並同步至雲端！');
+          closeFAQModal();
+          await fetchCloudData();
+        } else {
+          alert('儲存失敗：' + json.error);
+        }
+      } catch (err) {
+        if (!payload.id) payload.id = Date.now();
+        const idx = faqsData.findIndex(f => f.id === payload.id);
+        if (idx >= 0) {
+          payload.sort_order = faqsData[idx].sort_order || 1;
+          faqsData[idx] = payload;
+        } else {
+          payload.sort_order = faqsData.filter(f => f.category === category).length + 1;
+          faqsData.push(payload);
+        }
+        renderAllViews();
+        closeFAQModal();
+        showToast('已更新本機 QA 快取');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalText;
+        lucide.createIcons();
+      }
+    }
+
+    async function handleFAQDelete() {
+      const faqId = document.getElementById('faq-form-id').value;
+      if (!faqId || !confirm('確定要刪除此常見QA嗎？此動作將同步從 Google 試算表移除。')) return;
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'deleteQA', payload: { id: parseInt(faqId) } })
+        });
+        const json = await res.json();
+        if (json.success) {
+          showToast('QA 已刪除');
+          closeFAQModal();
+          await fetchCloudData();
+        }
+      } catch (err) {
+        faqsData = faqsData.filter(f => f.id !== parseInt(faqId));
+        renderAllViews();
+        closeFAQModal();
+        showToast('已自本機快取移除');
+      }
+    }
+
+    async function moveFAQOrder(faqId, direction) {
+      const targetFAQ = faqsData.find(f => f.id === parseInt(faqId));
+      if (!targetFAQ) return;
+
+      const catItems = faqsData
+        .filter(f => f.category === targetFAQ.category)
+        .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+      const idx = catItems.findIndex(f => f.id === parseInt(faqId));
+      const targetIdx = idx + direction;
+      if (targetIdx < 0 || targetIdx >= catItems.length) return;
+
+      const neighborFAQ = catItems[targetIdx];
+      const tempOrder = targetFAQ.sort_order || (idx + 1);
+      targetFAQ.sort_order = neighborFAQ.sort_order || (targetIdx + 1);
+      neighborFAQ.sort_order = tempOrder;
+
+      renderAllViews();
+      showToast('已調整 QA 排序');
+
+      try {
+        await fetch(API_URL, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'reorderQA', payload: { id: targetFAQ.id, sort_order: targetFAQ.sort_order, neighborId: neighborFAQ.id, neighborSortOrder: neighborFAQ.sort_order } })
+        });
+      } catch (e) {
+        // 本機已更新
+      }
+    }
+
     // ================= 圖片燈箱切換模組 =================
     let currentGalleryImages = [];
     let currentGalleryIndex = 0;
@@ -3031,7 +3819,7 @@
 
     // ================= 分頁切換 (SPA Router) =================
     function switchTab(viewName, targetSectionId = null) {
-      const views = ['view-main', 'subpage-digital-ad', 'subpage-print-design', 'subpage-video-editing', 'subpage-all-projects', 'subpage-all-bookmarks'];
+      const views = ['view-main', 'subpage-digital-ad', 'subpage-print-design', 'subpage-video-editing', 'subpage-all-projects', 'subpage-all-bookmarks', 'subpage-all-qa'];
       views.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('hidden');
@@ -3050,7 +3838,7 @@
     }
 
     function openSubPage(subpageKey) {
-      const views = ['view-main', 'subpage-digital-ad', 'subpage-print-design', 'subpage-video-editing', 'subpage-all-projects', 'subpage-all-bookmarks'];
+      const views = ['view-main', 'subpage-digital-ad', 'subpage-print-design', 'subpage-video-editing', 'subpage-all-projects', 'subpage-all-bookmarks', 'subpage-all-qa'];
       views.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.classList.add('hidden');
