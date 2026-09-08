@@ -2474,12 +2474,54 @@
       lucide.createIcons();
     }
 
+    // ================= 日期格式化模組 (統一輸出「YYYY年M月D日」，去除時間與GMT) =================
+    function formatDisplayDate(dateVal, fallback = '未定') {
+      if (!dateVal) return fallback;
+      const str = String(dateVal).trim();
+      if (!str || str === 'undefined' || str === 'null') return fallback;
+      if (/^\d{4}年\d{1,2}月\d{1,2}日$/.test(str)) return str;
+
+      const d = new Date(str);
+      if (isNaN(d.getTime())) {
+        const match = str.match(/(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})/);
+        if (match) {
+          return `${match[1]}年${parseInt(match[2], 10)}月${parseInt(match[3], 10)}日`;
+        }
+        return str;
+      }
+      const year = d.getFullYear();
+      const month = d.getMonth() + 1;
+      const day = d.getDate();
+      return `${year}年${month}月${day}日`;
+    }
+
+    function formatDateForInput(dateVal) {
+      if (!dateVal) return '';
+      const str = String(dateVal).trim();
+      const d = new Date(str);
+      if (isNaN(d.getTime())) {
+        const match = str.match(/(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})/);
+        if (match) {
+          const m = String(match[2]).padStart(2, '0');
+          const day = String(match[3]).padStart(2, '0');
+          return `${match[1]}-${m}-${day}`;
+        }
+        return '';
+      }
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
     // ⭐ 排序：以最近日期抓取，由上至下排序（最上面的專案日期為最近期）
     function sortProjectsByDate(list) {
       return [...list].sort((a, b) => {
-        const timeA = a.due_date ? new Date(a.due_date.replace(/\//g, '-')).getTime() : Infinity;
-        const timeB = b.due_date ? new Date(b.due_date.replace(/\//g, '-')).getTime() : Infinity;
-        return timeA - timeB; // 最近期（距離現在最近/最小日期）排在最上方
+        const timeA = a.due_date ? new Date(a.due_date).getTime() : Infinity;
+        const timeB = b.due_date ? new Date(b.due_date).getTime() : Infinity;
+        const tA = isNaN(timeA) ? Infinity : timeA;
+        const tB = isNaN(timeB) ? Infinity : timeB;
+        return tA - tB; // 最近期（距離現在最近/最小日期）排在最上方
       });
     }
 
@@ -2519,7 +2561,7 @@
             `;
           }
 
-          const formattedDate = (proj.due_date || '未定').replace(/-/g, '/');
+          const formattedDate = formatDisplayDate(proj.due_date, '未定');
 
           return `
             <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-amber-300 transition-all space-y-3 bg-white/95 dark:bg-slate-800/90 shadow-sm flex-1 flex flex-col justify-between relative">
@@ -2550,7 +2592,7 @@
       if (backlogContainer) {
         backlogContainer.innerHTML = backlogList.map(proj => {
           const tags = (proj.tags || '').split(',').map(t => t.trim()).filter(Boolean);
-          const formattedDate = (proj.due_date || '未定').replace(/-/g, '/');
+          const formattedDate = formatDisplayDate(proj.due_date, '未定');
           return `
             <div class="glass-card rounded-2xl p-5 border border-slate-200/80 dark:border-slate-700 hover:border-slate-400 transition-all bg-white/95 dark:bg-slate-800/90 shadow-sm flex-1 flex flex-col justify-between space-y-3">
               <div class="space-y-2">
@@ -2611,8 +2653,10 @@
           `;
         }
 
+        const formattedDate = formatDisplayDate(proj.due_date, '未定');
+
         return `
-          <div class="glass-card rounded-2xl ${currentViewMode === 'list' ? 'md:flex-row md:items-center md:justify-between py-3 px-5' : 'flex-col p-5 space-y-3'} border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all bg-white/95 dark:bg-slate-800/90 flex justify-between all-proj-card" data-status="${statusDataAttr}" data-date="${proj.due_date || ''}" data-tags="${tags.join(' ')}">
+          <div class="glass-card rounded-2xl ${currentViewMode === 'list' ? 'md:flex-row md:items-center md:justify-between py-3 px-5' : 'flex-col p-5 space-y-3'} border border-slate-200/80 dark:border-slate-700 hover:border-brand-400 transition-all bg-white/95 dark:bg-slate-800/90 flex justify-between all-proj-card" data-status="${statusDataAttr}" data-date="${formatDateForInput(proj.due_date)}" data-tags="${tags.join(' ')}">
             <div class="card-body-section ${currentViewMode === 'list' ? 'md:flex md:items-center md:gap-5 flex-1' : 'space-y-2.5'}">
               <div class="flex items-center justify-between">
                 ${statusBadge}
@@ -2626,7 +2670,7 @@
               ${imgHtml}
             </div>
             <div class="card-footer-section ${currentViewMode === 'list' ? 'md:border-t-0 md:pt-0 md:flex-row md:items-center md:gap-4 flex-shrink-0' : 'pt-3'} border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
-              <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> ${proj.due_date || '未定'}</span>
+              <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i> ${formattedDate}</span>
               <div class="flex items-center gap-1">
                 ${tags.map(t => `<span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold text-[11px] border border-slate-200/60 dark:border-slate-700">${t}</span>`).join('')}
               </div>
@@ -3048,7 +3092,7 @@
           document.getElementById('proj-form-desc').value = proj.description || '';
           document.getElementById('proj-form-status').value = proj.status || '進行中';
           document.getElementById('proj-form-priority').value = proj.priority || '中';
-          document.getElementById('proj-form-due-date').value = proj.due_date || '';
+          document.getElementById('proj-form-due-date').value = formatDateForInput(proj.due_date);
           document.getElementById('proj-form-tags').value = proj.tags || '';
           document.getElementById('proj-form-show-home').checked = (proj.show_in_home !== false);
           delBtn.classList.remove('hidden');
@@ -3509,7 +3553,7 @@
 
               <!-- 底部最後更新時間 -->
               <div class="flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500 pt-1">
-                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 最後更新：${faq.updated_at || '未設定'}</span>
+                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 最後更新：${formatDisplayDate(faq.updated_at, '未設定')}</span>
                 <span class="font-mono text-[10px] text-slate-300 dark:text-slate-600">ID: #${faq.id}</span>
               </div>
 
@@ -3663,7 +3707,7 @@
           document.getElementById('faq-form-question').value = faq.question || '';
           document.getElementById('faq-form-answer').value = faq.answer || '';
           document.getElementById('faq-form-tags').value = faq.tags || '';
-          document.getElementById('faq-form-updated-at').value = faq.updated_at || new Date().toISOString().split('T')[0];
+          document.getElementById('faq-form-updated-at').value = formatDateForInput(faq.updated_at) || formatDateForInput(new Date());
           document.getElementById('faq-form-show-home').checked = (faq.show_in_home !== false && faq.category !== 'other');
           
           handleFAQCategoryChange(faq.category || 'official');
@@ -3674,7 +3718,7 @@
         document.getElementById('faq-form').reset();
         document.getElementById('faq-form-id').value = '';
         document.getElementById('faq-form-category').value = 'official';
-        document.getElementById('faq-form-updated-at').value = new Date().toISOString().split('T')[0];
+        document.getElementById('faq-form-updated-at').value = formatDateForInput(new Date());
         document.getElementById('faq-form-show-home').checked = false;
         handleFAQCategoryChange('official');
         delBtn.classList.add('hidden');
