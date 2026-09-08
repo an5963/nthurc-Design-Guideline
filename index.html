@@ -1742,7 +1742,7 @@
           <span>返回工作手冊</span>
         </button>
         <span class="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/50 px-3.5 py-1.5 rounded-full border border-purple-200 dark:border-purple-800 self-start sm:self-auto">
-          常見QA ➔ 完整常見QA
+          常見QA ➔ 完整QA收錄
         </span>
       </div>
 
@@ -1754,8 +1754,8 @@
               <i data-lucide="help-circle" class="w-7 h-7"></i>
             </div>
             <div>
-              <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">常見QA</h2>
-              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">收錄中心業務、都市更新、社會住宅與常見民眾疑問及答覆，點擊複製即可一鍵複製答覆內容</p>
+              <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">完整QA收錄</h2>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">中心業務、都市更新、社會住宅與常見民眾疑問及答覆，點擊複製即可一鍵複製答覆內容</p>
             </div>
           </div>
 
@@ -2080,18 +2080,23 @@
         </div>
 
         <div>
-          <label class="block mb-1 font-bold text-slate-900 dark:text-white">Q (問題名稱 / 民眾諮詢主旨) *</label>
+          <label class="block mb-1 font-bold text-slate-900 dark:text-white">Q (問題描述/類型) *</label>
           <input type="text" id="faq-form-question" required placeholder="例: 承租社會住宅資格" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-inner" />
         </div>
 
         <div>
-          <label class="block mb-1 font-bold text-slate-900 dark:text-white">A (答案內容 / 標準回覆，支援多行與超連結) *</label>
-          <textarea id="faq-form-answer" rows="5" required placeholder="請輸入標準回覆內容..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-normal leading-relaxed text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-inner"></textarea>
+          <label class="block mb-1 font-bold text-slate-900 dark:text-white">A (回覆內容，支援多行與超連結) *</label>
+          <textarea id="faq-form-answer" rows="5" required placeholder="請輸入回覆內容..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-normal leading-relaxed text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-inner"></textarea>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block mb-1 font-bold text-slate-900 dark:text-white">問題標籤 (以逗號分隔)</label>
+            <div class="flex items-center justify-between mb-1">
+              <label class="font-bold text-slate-900 dark:text-white">問題標籤 (以逗號分隔)</label>
+              <button type="button" onclick="autoSuggestFAQTags()" class="inline-flex items-center gap-1 text-[11px] font-bold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 dark:hover:bg-purple-900 px-2 py-0.5 rounded-lg border border-purple-200 dark:border-purple-700 transition-colors">
+                ✨ 系統推薦
+              </button>
+            </div>
             <input type="text" id="faq-form-tags" placeholder="例: 社宅, 申請資格, 抽籤" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-medium text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500" />
           </div>
 
@@ -3596,6 +3601,52 @@
         alert(`⚠️「${cat === 'official' ? '中心相關' : cat === 'ur' ? '都市更新' : '社會住宅'}」分類於首頁外層已選滿 3 張卡片！\n若要展示此張，請先至其他 QA 卡片取消外層展示勾選。`);
         chk.checked = false;
       }
+    }
+
+    function autoSuggestFAQTags() {
+      const q = (document.getElementById('faq-form-question').value || '').trim();
+      const a = (document.getElementById('faq-form-answer').value || '').trim();
+      const category = document.getElementById('faq-form-category').value;
+
+      if (!q && !a) {
+        alert('請先填寫「Q (問題描述/類型)」或「A (回覆內容)」，系統才能為您精準分析推薦標籤！');
+        return;
+      }
+
+      const categoryDefaultTags = {
+        'official': ['中心介紹', '服務據點', '聯絡方式'],
+        'ur': ['都市更新', '都更諮詢', '專人服務'],
+        'sh': ['社會住宅', '社宅資格', '抽籤招租'],
+        'other': ['中央社宅', '國家住都中心', '諮詢轉介']
+      };
+
+      const combinedText = (q + ' ' + a).toLowerCase();
+      const suggestions = new Set();
+
+      // 1. 語意關聯比對
+      if (/社宅|社會住宅|出租|租賃/.test(combinedText)) suggestions.add('社宅');
+      if (/抽籤|隨到隨辦|電腦抽籤|直播/.test(combinedText)) suggestions.add('抽籤招租');
+      if (/資格|條件|所得|財產|設籍/.test(combinedText)) suggestions.add('申請資格');
+      if (/都更|都市更新|重建|危老|整建/.test(combinedText)) suggestions.add('都市更新');
+      if (/諮詢|服務專線|據點|服務|電話/.test(combinedText)) suggestions.add('諮詢專線');
+      if (/論文|徵選|活動|比賽|投稿/.test(combinedText)) suggestions.add('活動公告');
+      if (/中央|國家住都|國家住都中心/.test(combinedText)) suggestions.add('國家住都中心');
+      if (/招租|公告|名額|補件|放榜/.test(combinedText)) suggestions.add('招租資訊');
+
+      // 2. 拆解問題字詞
+      const cleanQ = q.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, ' ');
+      const qWords = cleanQ.split(/\s+/).filter(w => w.length >= 2 && w.length <= 6 && !/你好|請問|想問|關於|什麼|怎麼|哪些|可以/.test(w));
+      qWords.slice(0, 2).forEach(w => suggestions.add(w));
+
+      // 3. 補充分類預設標籤（若目前不足 2 組）
+      if (suggestions.size < 2) {
+        const catDefaults = categoryDefaultTags[category] || [];
+        catDefaults.forEach(t => suggestions.add(t));
+      }
+
+      const resultTags = Array.from(suggestions).slice(0, 3).join(', ');
+      document.getElementById('faq-form-tags').value = resultTags;
+      showToast(`✨ 系統已為您推薦標籤：${resultTags}`);
     }
 
     function openFAQModal(faqId = null) {
