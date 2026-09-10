@@ -1601,6 +1601,24 @@
       <!-- 專案容器 (由 renderAllProjectsSubpage 動態渲染) -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="all-projects-container"></div>
 
+      <!-- 底部回到頂部與返回導覽列 -->
+      <div class="pt-6 pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200/80 dark:border-slate-700/80 text-xs text-slate-500 dark:text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+          <span>已瀏覽至最下方・所有設計專案排程</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="scrollToSubpageTop()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-amber-50 dark:hover:bg-amber-950/50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-amber-600 dark:hover:text-amber-300 font-bold shadow-sm transition-all group">
+            <i data-lucide="arrow-up" class="w-4 h-4 text-amber-500 group-hover:-translate-y-0.5 transition-transform"></i>
+            <span>回到頁首上方</span>
+          </button>
+          <button onclick="switchTab('main', 'section-projects')" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold shadow-sm transition-all">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>返回工作手冊</span>
+          </button>
+        </div>
+      </div>
+
     </div>
 
     <!-- ======================================================== -->
@@ -1728,6 +1746,24 @@
 
       </div>
 
+      <!-- 底部回到頂部與返回導覽列 -->
+      <div class="pt-6 pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200/80 dark:border-slate-700/80 text-xs text-slate-500 dark:text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+          <span>已瀏覽至最下方・全部常用書籤與工具庫</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="scrollToSubpageTop()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-brand-50 dark:hover:bg-brand-950/50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-brand-600 dark:hover:text-brand-300 font-bold shadow-sm transition-all group">
+            <i data-lucide="arrow-up" class="w-4 h-4 text-brand-500 group-hover:-translate-y-0.5 transition-transform"></i>
+            <span>回到頁首上方</span>
+          </button>
+          <button onclick="switchTab('main', 'section-bookmarks')" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold shadow-sm transition-all">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>返回工作手冊</span>
+          </button>
+        </div>
+      </div>
+
     </div>
 
     <!-- ======================================================== -->
@@ -1840,6 +1876,26 @@
         </div>
 
       </div>
+
+      <!-- 底部回到頂部與返回導覽列 -->
+      <div class="pt-6 pb-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200/80 dark:border-slate-700/80 text-xs text-slate-500 dark:text-slate-400">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+          <span>已瀏覽至最下方・共收錄完整常見 QA 知識庫</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="scrollToSubpageTop()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/50 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:text-purple-600 dark:hover:text-purple-300 font-bold shadow-sm transition-all group">
+            <i data-lucide="arrow-up" class="w-4 h-4 text-purple-500 group-hover:-translate-y-0.5 transition-transform"></i>
+            <span>回到頁首上方</span>
+          </button>
+          <button onclick="switchTab('main', 'section-faq')" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold shadow-sm transition-all">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            <span>返回工作手冊</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
 
     </div>
 
@@ -3814,33 +3870,55 @@
       }
     }
 
+    function scrollToSubpageTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     async function moveFAQOrder(faqId, direction) {
-      const targetFAQ = faqsData.find(f => f.id === parseInt(faqId));
+      const targetId = parseInt(faqId);
+      const targetFAQ = faqsData.find(f => parseInt(f.id) === targetId);
       if (!targetFAQ) return;
 
+      // 取得該分類所有 QA 並依序排列
       const catItems = faqsData
         .filter(f => f.category === targetFAQ.category)
-        .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+        .sort((a, b) => (parseInt(a.sort_order) || 0) - (parseInt(b.sort_order) || 0));
 
-      const idx = catItems.findIndex(f => f.id === parseInt(faqId));
+      const idx = catItems.findIndex(f => parseInt(f.id) === targetId);
+      if (idx < 0) return;
       const targetIdx = idx + direction;
       if (targetIdx < 0 || targetIdx >= catItems.length) return;
 
-      const neighborFAQ = catItems[targetIdx];
-      const tempOrder = targetFAQ.sort_order || (idx + 1);
-      targetFAQ.sort_order = neighborFAQ.sort_order || (targetIdx + 1);
-      neighborFAQ.sort_order = tempOrder;
+      // 先將目前同分類 QA 序號正規化為 1, 2, 3...
+      catItems.forEach((item, i) => {
+        item.sort_order = i + 1;
+      });
+
+      // 交換 target 與 neighbor 的順序
+      const temp = catItems[idx];
+      catItems[idx] = catItems[targetIdx];
+      catItems[targetIdx] = temp;
+
+      // 重新賦予新的連續順序 1, 2, 3...
+      catItems.forEach((item, i) => {
+        item.sort_order = i + 1;
+      });
 
       renderAllViews();
       showToast('已調整 QA 排序');
 
       try {
+        const reorderItems = catItems.map(item => ({
+          id: parseInt(item.id),
+          sort_order: parseInt(item.sort_order)
+        }));
+
         await fetch(API_URL, {
           method: 'POST',
-          body: JSON.stringify({ action: 'reorderQA', payload: { id: targetFAQ.id, sort_order: targetFAQ.sort_order, neighborId: neighborFAQ.id, neighborSortOrder: neighborFAQ.sort_order } })
+          body: JSON.stringify({ action: 'reorderQA', payload: { items: reorderItems } })
         });
       } catch (e) {
-        // 本機已更新
+        console.warn('雲端同步排序失敗，已先保留本機排序:', e);
       }
     }
 
